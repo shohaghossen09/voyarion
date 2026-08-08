@@ -2,6 +2,7 @@
 
 import { useAppStore } from "@/store/useAppStore";
 import { ArrowRight, MapPin } from "lucide-react";
+import { SmartImage } from "@/components/site/SmartImage";
 
 export interface DestinationCardData {
   id: string;
@@ -30,11 +31,11 @@ export function DestinationCard({ destination, large = false, onSelect }: { dest
       onClick={handleClick}
       className={`group relative overflow-hidden rounded-2xl ${large ? "aspect-[4/5] lg:aspect-[3/4]" : "aspect-[3/4]"} premium-card cursor-pointer text-left bg-card border border-border-subtle`}
     >
-      <img
+      <SmartImage
         src={destination.heroImage}
         alt={destination.name}
-        loading="lazy"
         className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+        fallbackText="Destination"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
       <div className="absolute inset-0 p-4 lg:p-6 flex flex-col justify-end text-white">

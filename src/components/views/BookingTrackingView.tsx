@@ -5,6 +5,7 @@ import { useAppStore } from "@/store/useAppStore";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { SmartImage } from "@/components/site/SmartImage";
 import {
   ChevronLeft, Calendar, Users, MapPin, Clock, Download, CheckCircle2, Circle,
   Package, CreditCard, Car, Building2, Star, MessageSquare, AlertCircle, Phone, Mail,
@@ -98,7 +99,7 @@ export function BookingTrackingView({ bookingId }: { bookingId: string }) {
         <div className="bg-card border border-border-subtle rounded-2xl overflow-hidden mb-6">
           <div className="flex flex-col sm:flex-row">
             <div className="sm:w-56 aspect-[4/3] sm:aspect-auto bg-surface shrink-0">
-              <img src={img} alt={name} className="w-full h-full object-cover" />
+              <SmartImage src={img} alt={name} className="w-full h-full object-cover" fallbackText="Image" />
             </div>
             <div className="flex-1 p-5">
               <div className="flex items-center gap-2 mb-2">

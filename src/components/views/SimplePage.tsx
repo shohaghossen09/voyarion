@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useAppStore } from "@/store/useAppStore";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, Sparkles, LifeBuoy, FileText, Shield, RotateCcw, Headphones, Mail, Phone, MessageCircle, BookOpen } from "lucide-react";
+import { SmartImage } from "@/components/site/SmartImage";
 
 export function SimplePage({ kind }: { kind: "about" | "help" | "deals" | "terms" | "privacy" | "cancellation" }) {
   const { setView } = useAppStore();
@@ -12,7 +13,7 @@ export function SimplePage({ kind }: { kind: "about" | "help" | "deals" | "terms
     return (
       <div className="min-h-screen">
         <div className="relative aspect-[16/6] bg-foreground">
-          <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920&q=80" alt="" className="w-full h-full object-cover opacity-60" />
+          <SmartImage src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920&q=80" alt="" className="w-full h-full object-cover opacity-60" fallbackText="Image" />
           <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/70 to-transparent" />
           <div className="absolute inset-0 flex items-center">
             <div className="mx-auto max-w-[1400px] w-full px-4 sm:px-6 lg:px-8 text-white">

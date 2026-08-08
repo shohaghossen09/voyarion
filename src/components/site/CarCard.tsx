@@ -4,6 +4,7 @@ import { useAppStore, type FavoriteItem } from "@/store/useAppStore";
 import { Heart, Star, MapPin, ArrowRight, Users, Cog, Fuel } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { SmartImage } from "@/components/site/SmartImage";
 import { cn } from "@/lib/utils";
 
 export interface CarCardData {
@@ -50,11 +51,11 @@ export function CarCard({ car, compact = false }: { car: CarCardData; compact?: 
       className="group premium-card bg-card border border-border-subtle rounded-2xl overflow-hidden cursor-pointer"
     >
       <div className="relative aspect-[16/10] overflow-hidden bg-surface">
-        <img
+        <SmartImage
           src={car.heroImage}
           alt={`${car.brand} ${car.model}`}
-          loading="lazy"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          fallbackText="Vehicle"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
         {car.featured && (

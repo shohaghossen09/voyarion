@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ChevronLeft, Mail, Lock, User, Phone, Building2, Car, ShieldCheck, Sparkles, Eye, EyeOff, Check, X } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { SmartImage } from "@/components/site/SmartImage";
 
 function getPasswordStrength(password: string) {
   let score = 0;
@@ -123,7 +124,7 @@ export function AuthView({ mode: initialMode }: { mode: "login" | "register" | "
     <div className="min-h-screen flex">
       {/* Left visual panel */}
       <div className="hidden lg:flex lg:w-1/2 relative">
-        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&q=80" alt="" className="absolute inset-0 w-full h-full object-cover" />
+        <SmartImage src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&q=80" alt="" className="absolute inset-0 w-full h-full object-cover" fallbackText="Image" />
         <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-background/80" />
         <div className="relative z-10 flex flex-col justify-between p-12 text-white">
           <button onClick={() => setView({ name: "home" })} className="flex items-center gap-2.5 group">

@@ -3,6 +3,7 @@
 import { useAppStore } from "@/store/useAppStore";
 import { Clock, X, ArrowRight, Star, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SmartImage } from "@/components/site/SmartImage";
 
 export function RecentlyViewed() {
   const { recentlyViewed, setView, clearRecentlyViewed } = useAppStore();
@@ -36,11 +37,11 @@ export function RecentlyViewed() {
               className="group shrink-0 w-56 cursor-pointer bg-card border border-border-subtle rounded-xl overflow-hidden premium-card"
             >
               <div className="relative aspect-[4/3] bg-surface overflow-hidden">
-                <img
+                <SmartImage
                   src={item.image}
                   alt={item.name}
-                  loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  fallbackText={item.type}
                 />
                 <div className="absolute top-2 right-2 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur border border-white/10 text-[10px] font-semibold text-white uppercase tracking-wider">
                   {item.type}

@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Checkbox } from "@/components/ui/checkbox";
+import { SmartImage } from "@/components/site/SmartImage";
 import {
   ChevronLeft, CreditCard, Lock, CheckCircle2, ShieldCheck, Calendar, Users, MapPin, Clock,
   ArrowRight, ArrowLeft, Loader2, User, Mail, Phone, Sparkles, Tag, Info,
@@ -195,7 +196,7 @@ export function CheckoutView({ bookingType, refId }: { bookingType: "HOTEL" | "C
             <div className="bg-card border border-border-subtle rounded-2xl overflow-hidden">
               <div className="flex flex-col sm:flex-row">
                 <div className="sm:w-48 aspect-[4/3] sm:aspect-auto bg-surface shrink-0">
-                  <img src={listing.heroImage} alt="" className="w-full h-full object-cover" />
+                  <SmartImage src={listing.heroImage} alt="" className="w-full h-full object-cover" fallbackText="Image" />
                 </div>
                 <div className="flex-1 p-5">
                   <div className="flex items-center gap-2 mb-2">

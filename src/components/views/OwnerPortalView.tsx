@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { SmartImage } from "@/components/site/SmartImage";
 import {
   AreaChart, Area, BarChart, Bar, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid,
 } from "recharts";
@@ -207,7 +208,7 @@ export function OwnerPortalView({ tab: initialTab }: { tab?: string }) {
                 {vehicles.map(v => (
                   <div key={v.id} className="bg-card border border-border/60 rounded-2xl overflow-hidden flex flex-col sm:flex-row hover:shadow-premium transition-shadow">
                     <div className="sm:w-44 aspect-[4/3] sm:aspect-auto bg-surface shrink-0">
-                      <img src={v.heroImage} alt="" className="w-full h-full object-cover" />
+                      <SmartImage src={v.heroImage} alt="" className="w-full h-full object-cover" fallbackText="Image" />
                     </div>
                     <div className="flex-1 p-4 flex flex-col sm:flex-row sm:items-center gap-3">
                       <div className="flex-1">

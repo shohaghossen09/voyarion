@@ -10,6 +10,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Star, MapPin, Heart, Share, ChevronLeft, Check, X, Calendar, Users, ArrowRight, Wifi, Waves, Dumbbell, Utensils, Coffee, Shield } from "lucide-react";
 import { toast } from "sonner";
 import { calculateHotelPrice, nightsBetween } from "@/lib/pricing";
+import { SmartImage } from "@/components/site/SmartImage";
 import { cn } from "@/lib/utils";
 
 const AMENITY_ICONS: Record<string, any> = {
@@ -146,11 +147,11 @@ export function HotelDetailView({ hotelId }: { hotelId: string }) {
         {/* Gallery */}
         <div className="grid lg:grid-cols-4 gap-2 mb-8 rounded-2xl overflow-hidden">
           <button onClick={() => setGalleryOpen(true)} className="lg:col-span-2 lg:row-span-2 aspect-[4/3] lg:aspect-auto overflow-hidden bg-surface">
-            <img src={images[0]} alt={hotel.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+            <SmartImage src={images[0]} alt={hotel.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" fallbackText="Hotel" />
           </button>
           {images.slice(1, 5).map((img: string, i: number) => (
             <button key={i} onClick={() => setGalleryOpen(true)} className="aspect-[4/3] overflow-hidden bg-surface hidden lg:block">
-              <img src={img} alt={`${hotel.name} ${i+2}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+              <SmartImage src={img} alt={`${hotel.name} ${i+2}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" fallbackText="Hotel" />
             </button>
           ))}
           <button onClick={() => setGalleryOpen(true)} className="hidden lg:flex absolute bottom-4 right-4 items-center gap-2 px-3 py-1.5 rounded-lg bg-white/90 backdrop-blur text-xs font-semibold text-foreground">
@@ -220,7 +221,7 @@ export function HotelDetailView({ hotelId }: { hotelId: string }) {
                   >
                     <div className="grid sm:grid-cols-3 gap-0">
                       <div className="aspect-[4/3] sm:aspect-auto bg-surface overflow-hidden">
-                        <img src={room.images[0]} alt={room.name} className="w-full h-full object-cover" />
+                        <SmartImage src={room.images[0]} alt={room.name} className="w-full h-full object-cover" fallbackText="Room" />
                       </div>
                       <div className="sm:col-span-2 p-4 lg:p-5">
                         <div className="flex items-start justify-between gap-3">
@@ -409,11 +410,11 @@ export function HotelDetailView({ hotelId }: { hotelId: string }) {
           <button className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center" onClick={() => setGalleryOpen(false)}>
             <X className="w-5 h-5" />
           </button>
-          <img src={images[activeImage]} alt="" className="max-w-full max-h-full object-contain" />
+          <SmartImage src={images[activeImage]} alt="" className="max-w-full max-h-full object-contain" fallbackText="Gallery" />
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
             {images.map((img: string, i: number) => (
               <button key={i} onClick={(e) => { e.stopPropagation(); setActiveImage(i); }} className={cn("w-16 h-12 rounded-lg overflow-hidden border-2", activeImage === i ? "border-gold" : "border-transparent")}>
-                <img src={img} alt="" className="w-full h-full object-cover" />
+                <SmartImage src={img} alt="" className="w-full h-full object-cover" fallbackText="Gallery" />
               </button>
             ))}
           </div>

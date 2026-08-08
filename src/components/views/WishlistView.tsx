@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Heart, X, Plus, Folder, ArrowRight, Star, MapPin } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { SmartImage } from "@/components/site/SmartImage";
 
 export function WishlistView() {
   const { favorites, setView, toggleFavorite, wishlistCollections, createWishlistCollection, moveFavoriteToCollection } = useAppStore();
@@ -111,7 +112,7 @@ export function WishlistView() {
             {filteredFavorites.map(fav => (
               <div key={fav.id} className="bg-card border border-border-subtle rounded-2xl overflow-hidden premium-card group">
                 <div className="relative aspect-[4/3] bg-surface">
-                  <img src={fav.image} alt={fav.name} className="w-full h-full object-cover" />
+                  <SmartImage src={fav.image} alt={fav.name} className="w-full h-full object-cover" fallbackText="Image" />
                   <button
                     onClick={() => { toggleFavorite(fav); toast.success("Removed from wishlist"); }}
                     className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/50 backdrop-blur-md border border-white/10 flex items-center justify-center hover:bg-red-500/30 transition-colors"

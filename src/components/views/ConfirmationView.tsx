@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CheckCircle2, Calendar, Users, MapPin, Download, Home, CalendarDays, Copy, PartyPopper, Clock } from "lucide-react";
 import { toast } from "sonner";
+import { SmartImage } from "@/components/site/SmartImage";
 
 export function ConfirmationView({ bookingId }: { bookingId: string }) {
   const { setView } = useAppStore();
@@ -62,7 +63,7 @@ export function ConfirmationView({ bookingId }: { bookingId: string }) {
         {/* Booking card */}
         <div className="bg-card border border-border/60 rounded-2xl overflow-hidden shadow-premium">
           <div className="relative aspect-[16/7] bg-surface">
-            <img src={img} alt={name} className="w-full h-full object-cover" />
+            <SmartImage src={img} alt={name} className="w-full h-full object-cover" fallbackText="Image" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
             <div className="absolute bottom-4 left-5 right-5 flex items-end justify-between">
               <div className="text-white">

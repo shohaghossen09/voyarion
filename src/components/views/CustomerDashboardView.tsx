@@ -11,6 +11,7 @@ import { HotelCard } from "@/components/site/HotelCard";
 import { CarCard } from "@/components/site/CarCard";
 import { Calendar, Heart, User, Settings, Bell, ChevronLeft, Download, X, Star, Clock, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
+import { SmartImage } from "@/components/site/SmartImage";
 
 export function CustomerDashboardView({ tab: initialTab }: { tab?: string }) {
   const { user, setView, favorites } = useAppStore();
@@ -139,7 +140,7 @@ export function CustomerDashboardView({ tab: initialTab }: { tab?: string }) {
                   {favorites.map(f => (
                     <div key={f.id} className="bg-card border border-border/60 rounded-2xl overflow-hidden">
                       <div className="aspect-[4/3] bg-surface">
-                        <img src={f.image} alt={f.name} className="w-full h-full object-cover" />
+                        <SmartImage src={f.image} alt={f.name} className="w-full h-full object-cover" fallbackText="Image" />
                       </div>
                       <div className="p-4">
                         <h3 className="font-semibold">{f.name}</h3>
@@ -215,7 +216,7 @@ export function CustomerDashboardView({ tab: initialTab }: { tab?: string }) {
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setSelectedBooking(null)}>
           <div className="bg-card rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto scrollbar-premium" onClick={e => e.stopPropagation()}>
             <div className="relative">
-              <img src={selectedBooking.hotel?.heroImage || selectedBooking.car?.heroImage} alt="" className="w-full aspect-[16/9] object-cover rounded-t-2xl" />
+              <SmartImage src={selectedBooking.hotel?.heroImage || selectedBooking.car?.heroImage} alt="" className="w-full aspect-[16/9] object-cover rounded-t-2xl" fallbackText="Image" />
               <button onClick={() => setSelectedBooking(null)} className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/90 flex items-center justify-center">
                 <X className="w-4 h-4" />
               </button>
@@ -292,7 +293,7 @@ function BookingCard({ booking, onView, onCancel, onTrack }: { booking: any; onV
   return (
     <div className="bg-card border border-border/60 rounded-2xl overflow-hidden flex flex-col sm:flex-row hover:shadow-premium transition-shadow">
       <div className="sm:w-48 aspect-[4/3] sm:aspect-auto bg-surface shrink-0">
-        <img src={img} alt={name} className="w-full h-full object-cover" />
+        <SmartImage src={img} alt={name} className="w-full h-full object-cover" fallbackText="Image" />
       </div>
       <div className="flex-1 p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center gap-4">
         <div className="flex-1">

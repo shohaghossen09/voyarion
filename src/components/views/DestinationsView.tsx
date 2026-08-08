@@ -5,6 +5,7 @@ import { useAppStore } from "@/store/useAppStore";
 import { DestinationCard, type DestinationCardData } from "@/components/site/DestinationCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Globe, ChevronLeft } from "lucide-react";
+import { SmartImage } from "@/components/site/SmartImage";
 
 export function DestinationsView({ destinationId }: { destinationId?: string }) {
   const { setView } = useAppStore();
@@ -94,7 +95,7 @@ function DestinationDetail({ destination, onBack }: { destination: DestinationCa
   return (
     <div>
       <div className="relative aspect-[16/7] bg-surface">
-        <img src={destination.heroImage} alt={destination.name} className="w-full h-full object-cover" />
+        <SmartImage src={destination.heroImage} alt={destination.name} className="w-full h-full object-cover" fallbackText="Image" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
         <div className="absolute bottom-6 left-0 right-0 mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 text-white">
           <button onClick={onBack} className="text-sm text-white/70 hover:text-white mb-3 flex items-center gap-1">
@@ -154,7 +155,7 @@ function HotelMini({ hotel }: any) {
   return (
     <div className="bg-card border border-border-subtle rounded-2xl overflow-hidden premium-card">
       <div className="aspect-[4/3] bg-surface">
-        <img src={hotel.heroImage} alt={hotel.name} className="w-full h-full object-cover" />
+        <SmartImage src={hotel.heroImage} alt={hotel.name} className="w-full h-full object-cover" fallbackText="Image" />
       </div>
       <div className="p-4">
         <h3 className="font-semibold truncate text-foreground" style={{ fontFamily: "var(--font-playfair), serif" }}>{hotel.name}</h3>
@@ -169,7 +170,7 @@ function CarMini({ car }: any) {
   return (
     <div className="bg-card border border-border-subtle rounded-2xl overflow-hidden premium-card">
       <div className="aspect-[16/10] bg-surface">
-        <img src={car.heroImage} alt={`${car.brand} ${car.model}`} className="w-full h-full object-cover" />
+        <SmartImage src={car.heroImage} alt={`${car.brand} ${car.model}`} className="w-full h-full object-cover" fallbackText="Vehicle" />
       </div>
       <div className="p-4">
         <h3 className="font-semibold truncate text-foreground" style={{ fontFamily: "var(--font-playfair), serif" }}>{car.brand} {car.model}</h3>

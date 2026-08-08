@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useAppStore } from "@/store/useAppStore";
 import { SearchWidget } from "@/components/site/SearchWidget";
 import { RecentlyViewed } from "@/components/site/RecentlyViewed";
+import { SmartImage } from "@/components/site/SmartImage";
 import { HotelCard, type HotelCardData } from "@/components/site/HotelCard";
 import { CarCard, type CarCardData } from "@/components/site/CarCard";
 import { DestinationCard, type DestinationCardData } from "@/components/site/DestinationCard";
@@ -50,10 +51,12 @@ export function HomeView() {
       {/* ============== HERO ============== */}
       <section className="relative min-h-[680px] lg:min-h-[760px] flex items-center">
         <div className="absolute inset-0">
-          <img
+          <SmartImage
             src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1920&q=80"
             alt="Premium travel destinations"
+            loading="eager"
             className="w-full h-full object-cover"
+            fallbackText="Voyarion"
           />
           <div className="absolute inset-0 hero-overlay" />
         </div>
@@ -308,7 +311,7 @@ export function HomeView() {
                 </div>
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">"{r.text}"</p>
                 <div className="mt-5 flex items-center gap-3">
-                  <img src={r.avatar} alt={r.name} className="w-10 h-10 rounded-full object-cover ring-2 ring-gold/20" />
+                  <SmartImage src={r.avatar} alt={r.name} className="w-10 h-10 rounded-full object-cover ring-2 ring-gold/20" fallbackText="User" />
                   <div>
                     <p className="text-sm font-semibold text-foreground" style={{ fontFamily: "var(--font-playfair), serif" }}>{r.name}</p>
                     <p className="text-xs text-muted-foreground">{r.location}</p>
@@ -323,7 +326,7 @@ export function HomeView() {
       {/* ============== CTA ============== */}
       <section className="relative section-pad overflow-hidden">
         <div className="absolute inset-0">
-          <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920&q=80" alt="" className="w-full h-full object-cover" />
+          <SmartImage src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920&q=80" alt="" className="w-full h-full object-cover" fallbackText="Travel" />
           <div className="absolute inset-0 bg-gradient-to-br from-background via-background/90 to-background/70" />
         </div>
         <div className="relative mx-auto max-w-[1100px] px-4 sm:px-6 lg:px-8 text-center">
