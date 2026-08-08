@@ -1,0 +1,428 @@
+// Premium Hotel & Car Booking Marketplace — Prisma Schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// USERS & ROLES
+// ============================================================
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String
+  passwordHash  String
+  phone         String?
+  avatarUrl     String?
+  role          String   @default("CUSTOMER") // CUSTOMER | OWNER | ADMIN | SUPER_ADMIN
+  status        String   @default("ACTIVE") // ACTIVE | SUSPENDED
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  profile       UserProfile?
+  owner         Owner?
+  hotelOwned    Hotel[]    @relation("HotelOwner")
+  bookings      Booking[]
+  reviews       Review[]
+  favorites     Favorite[]
+  notifications Notification[]
+  auditLogs     AuditLog[]
+  sessions      Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model UserProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  firstName       String?
+  lastName        String?
+  countryCode     String?
+  bio             String?
+  address         String?
+  city            String?
+  country         String?
+  postalCode      String?
+  preferredCurrency String @default("USD")
+  preferredLanguage String @default("en")
+  emailVerified   Boolean  @default(false)
+  phoneVerified   Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Owner {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  displayName     String
+  verified        Boolean  @default(false)
+  businessName    String?
+  taxId           String?
+  payoutMethod    String?  // STRIPE_CONNECT | BANK_TRANSFER
+  payoutDetails   String?  // JSON string
+  rating          Float    @default(5.0)
+  totalEarnings   Float    @default(0)
+  pendingPayouts  Float    @default(0)
+  completedPayouts Float   @default(0)
+  responseRate    Float    @default(98)
+  responseTime    Int      @default(60) // minutes
+  joinedAt        DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cars            Car[]
+  bookings        Booking[]
+
+  @@index([userId])
+}
+
+// ============================================================
+// HOTELS & ROOMS
+// ============================================================
+
+model Hotel {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  name          String
+  description   String
+  shortLocation String
+  city          String
+  country       String
+  latitude      Float?
+  longitude     Float?
+  address       String?
+  starRating    Int      @default(5)
+  reviewScore   Float    @default(0)
+  reviewCount   Int      @default(0)
+  priceFrom     Float
+  currency      String   @default("USD")
+  heroImage     String
+  images        String   // JSON array
+  amenities     String   // JSON array
+  propertyType  String   @default("HOTEL") // HOTEL | RESORT | VILLA | APARTMENT | BOUTIQUE
+  checkInTime   String   @default("15:00")
+  checkOutTime  String   @default("11:00")
+  houseRules    String   // JSON array
+  status        String   @default("PUBLISHED") // DRAFT | PUBLISHED | SUSPENDED
+  featured      Boolean  @default(false)
+  ownerId       String?  // optional hotel manager
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  owner         User?    @relation("HotelOwner", fields: [ownerId], references: [id])
+  rooms         HotelRoom[]
+  reviews       Review[]
+  favorites     Favorite[]
+  bookings      Booking[]
+  destination   Destination? @relation(fields: [destinationId], references: [id])
+  destinationId String?
+
+  @@index([city])
+  @@index([destinationId])
+}
+
+model HotelRoom {
+  id              String   @id @default(cuid())
+  hotelId         String
+  name            String
+  description     String
+  bedConfig       String
+  maxGuests       Int      @default(2)
+  maxRooms        Int      @default(5)
+  pricePerNight   Float
+  currency        String   @default("USD")
+  images          String   // JSON array
+  amenities       String   // JSON array
+  cancellationPolicy String @default("FREE_CANCEL_48H")
+  available       Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  hotel           Hotel    @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  bookings        Booking[]
+
+  @@index([hotelId])
+}
+
+// ============================================================
+// CARS
+// ============================================================
+
+model Car {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  ownerId         String
+  brand           String
+  model           String
+  year            Int
+  vehicleType     String   // SEDAN | SUV | LUXURY | SPORTS | CONVERTIBLE | VAN | ELECTRIC | ECONOMY
+  transmission    String   // AUTOMATIC | MANUAL
+  fuelType        String   // PETROL | DIESEL | HYBRID | ELECTRIC
+  seats           Int
+  doors           Int      @default(4)
+  mileage         Int?
+  features        String   // JSON array
+  description     String
+  heroImage       String
+  images          String   // JSON array
+  locationCity    String
+  locationCountry String
+  address         String?
+  latitude        Float?
+  longitude       Float?
+  dailyRate       Float
+  weeklyRate      Float?
+  monthlyRate     Float?
+  weekendRate     Float?
+  currency        String   @default("USD")
+  securityDeposit Float    @default(0)
+  minimumRental   Int      @default(1) // days
+  maximumRental   Int?     // days
+  mileagePerDay   Int?
+  extraMileageFee Float?
+  reviewScore     Float    @default(0)
+  reviewCount     Int      @default(0)
+  rating          Float    @default(5.0)
+  status          String   @default("PUBLISHED") // DRAFT | PUBLISHED | SUSPENDED | PENDING_APPROVAL
+  approved        Boolean  @default(true)
+  featured        Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  owner           Owner    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  bookings        Booking[]
+  reviews         Review[]
+  favorites       Favorite[]
+  availability    CarAvailability[]
+  destination     Destination? @relation(fields: [destinationId], references: [id])
+  destinationId   String?
+
+  @@index([ownerId])
+  @@index([vehicleType])
+  @@index([locationCity])
+}
+
+model CarAvailability {
+  id          String   @id @default(cuid())
+  carId       String
+  date        DateTime
+  isAvailable Boolean  @default(true)
+  isBlocked   Boolean  @default(false)
+  car         Car      @relation(fields: [carId], references: [id], onDelete: Cascade)
+
+  @@unique([carId, date])
+  @@index([carId, date])
+}
+
+// ============================================================
+// DESTINATIONS
+// ============================================================
+
+model Destination {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  name          String
+  country       String
+  description   String
+  heroImage     String
+  imageGallery  String   // JSON array
+  propertyCount Int      @default(0)
+  carCount      Int      @default(0)
+  popularity    Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  hotels        Hotel[]
+  cars          Car[]
+}
+
+// ============================================================
+// BOOKINGS & PAYMENTS
+// ============================================================
+
+model Booking {
+  id              String   @id @default(cuid())
+  reference       String   @unique
+  bookingType     String   // HOTEL | CAR
+  customerId      String
+  ownerId         String?  // for car bookings, the owner id
+  hotelId         String?
+  hotelRoomId     String?
+  carId           String?
+  startDate       DateTime
+  endDate         DateTime
+  nights          Int      @default(1) // for hotels
+  days            Int      @default(1) // for cars
+  guests          Int      @default(1)
+  rooms           Int      @default(1)
+  pickupLocation  String?  // for cars
+  dropoffLocation String?  // for cars
+  pickupTime      String?  // for cars
+  dropoffTime     String?  // for cars
+  basePrice       Float
+  fees            Float    @default(0)
+  taxes           Float    @default(0)
+  discount        Float    @default(0)
+  totalAmount     Float
+  currency        String   @default("USD")
+  bookingStatus   String   @default("PENDING") // PENDING | CONFIRMED | CANCELLED | COMPLETED | REFUNDED
+  paymentStatus   String   @default("PENDING") // PENDING | PAID | FAILED | REFUNDED | PARTIALLY_REFUNDED
+  cancellationReason String?
+  cancelledAt     DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  customer        User     @relation(fields: [customerId], references: [id])
+  owner           Owner?   @relation(fields: [ownerId], references: [id])
+  hotel           Hotel?   @relation(fields: [hotelId], references: [id])
+  hotelRoom       HotelRoom? @relation(fields: [hotelRoomId], references: [id])
+  car             Car?     @relation(fields: [carId], references: [id])
+  payment         Payment?
+  review          Review?
+
+  @@index([customerId])
+  @@index([ownerId])
+  @@index([carId, startDate, endDate])
+  @@index([hotelId, startDate, endDate])
+}
+
+model Payment {
+  id              String   @id @default(cuid())
+  bookingId       String   @unique
+  provider        String   @default("STRIPE")
+  providerPaymentId String? // Stripe payment intent ID
+  amount          Float
+  currency        String   @default("USD")
+  status          String   @default("PENDING") // PENDING | SUCCEEDED | FAILED | REFUNDED | PARTIALLY_REFUNDED
+  method          String?  // CARD | BANK | WALLET
+  failureReason   String?
+  refundAmount    Float    @default(0)
+  platformFee     Float    @default(0)
+  ownerPayout     Float    @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  booking         Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([bookingId])
+}
+
+// ============================================================
+// REVIEWS
+// ============================================================
+
+model Review {
+  id          String   @id @default(cuid())
+  reviewerId  String
+  bookingId   String?  @unique
+  hotelId     String?
+  carId       String?
+  rating      Int      // 1-5
+  title       String
+  content     String
+  // Hotel-specific
+  cleanliness Int?
+  location    Int?
+  service     Int?
+  value       Int?
+  // Car-specific
+  condition   Int?
+  ownerExperience Int?
+  accuracy    Int?
+  pickupExperience Int?
+  status      String   @default("PUBLISHED")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  reviewer    User     @relation(fields: [reviewerId], references: [id])
+  booking     Booking? @relation(fields: [bookingId], references: [id])
+  hotel       Hotel?   @relation(fields: [hotelId], references: [id])
+  car         Car?     @relation(fields: [carId], references: [id])
+
+  @@index([hotelId])
+  @@index([carId])
+}
+
+// ============================================================
+// FAVORITES
+// ============================================================
+
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String
+  hotelId   String?
+  carId     String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hotel     Hotel?   @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  car       Car?     @relation(fields: [carId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, hotelId])
+  @@unique([userId, carId])
+  @@index([userId])
+}
+
+// ============================================================
+// PROMOTIONS
+// ============================================================
+
+model Promotion {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  code        String   @unique
+  type        String   // HOTEL | CAR | BOTH
+  discountPct Int      @default(0)
+  discountAmt Float    @default(0)
+  validFrom   DateTime
+  validTo     DateTime
+  imageUrl    String?
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+}
+
+// ============================================================
+// NOTIFICATIONS
+// ============================================================
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  message   String
+  type      String   // BOOKING | PAYMENT | SYSTEM | REVIEW
+  read      Boolean  @default(false)
+  metadata  String?  // JSON
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read])
+}
+
+// ============================================================
+// AUDIT LOG
+// ============================================================
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String?
+  action    String
+  entity    String
+  entityId  String?
+  metadata  String?  // JSON
+  createdAt DateTime @default(now())
+  actor     User?    @relation(fields: [actorId], references: [id])
+
+  @@index([entity, entityId])
+  @@index([createdAt])
+}
