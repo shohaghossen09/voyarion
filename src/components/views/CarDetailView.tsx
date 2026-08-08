@@ -106,7 +106,7 @@ export function CarDetailView({ carId }: { carId: string }) {
   const fav = isFavorited(car.id);
 
   return (
-    <div className="bg-background pb-12">
+    <div className="bg-background pb-24 lg:pb-12">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-6">
         <button onClick={() => setView({ name: "cars" })} className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4">
           <ChevronLeft className="w-4 h-4" /> Back to cars
@@ -368,6 +368,23 @@ export function CarDetailView({ carId }: { carId: string }) {
           </div>
         </div>
       )}
+
+      {/* Sticky mobile booking bar */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-card/95 backdrop-blur-xl border-t border-border-subtle p-3 flex items-center justify-between gap-3">
+        <div>
+          <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+            {price && days > 0 ? "Total" : "From"}
+          </p>
+          <p className="font-bold text-lg text-foreground">
+            ${price && days > 0 ? price.totalAmount.toFixed(0) : car.dailyRate}
+            {(!price || days <= 0) && <span className="text-xs font-normal text-muted-foreground">/ day</span>}
+          </p>
+        </div>
+        <Button onClick={handleBook} className="btn-gold flex-1 max-w-[200px] h-11">
+          {days > 0 ? "Book now" : "Select dates"}
+          <ArrowRight className="w-4 h-4 ml-2" />
+        </Button>
+      </div>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useAppStore } from "@/store/useAppStore";
-import { Star, X, TrendingUp } from "lucide-react";
+import { X, TrendingUp } from "lucide-react";
 
 const SOCIAL_PROOF_MESSAGES = [
   { name: "Sarah from London", action: "just booked", listing: "Aegean Pearl Resort", location: "Santorini", time: "2 minutes ago" },
@@ -17,39 +17,49 @@ const SOCIAL_PROOF_MESSAGES = [
 
 const FIRST_DELAY = 12000; // 12 seconds
 const REPEAT_DELAY = 25000; // every 25 seconds
+const VISIBLE_DURATION = 6000; // visible for 6 seconds
 
 export function SocialProofToast() {
   const { view, user } = useAppStore();
   const [visible, setVisible] = useState(false);
   const [currentMessage, setCurrentMessage] = useState(SOCIAL_PROOF_MESSAGES[0]);
   const [dismissed, setDismissed] = useState(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const firstTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (dismissed) return;
-    // Don't show on auth, checkout, or admin pages
+    // Don't show for logged-in admins/owners or on auth/checkout/admin pages
+    if (user && (user.role === "ADMIN" || user.role === "SUPER_ADMIN" || user.role === "OWNER")) {
+      return;
+    }
     if (view.name === "auth" || view.name === "checkout" || view.name === "confirmation" || view.name === "admin-panel" || view.name === "owner-portal") {
       return;
     }
 
-    const firstTimer = setTimeout(() => {
+    const showMessage = () => {
       setCurrentMessage(SOCIAL_PROOF_MESSAGES[Math.floor(Math.random() * SOCIAL_PROOF_MESSAGES.length)]);
       setVisible(true);
+      // Auto-hide after VISIBLE_DURATION
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+      hideTimerRef.current = setTimeout(() => setVisible(false), VISIBLE_DURATION);
+    };
 
-      // Auto-hide after 6 seconds
-      setTimeout(() => setVisible(false), 6000);
-
-      // Repeat every 25 seconds
-      const interval = setInterval(() => {
-        setCurrentMessage(SOCIAL_PROOF_MESSAGES[Math.floor(Math.random() * SOCIAL_PROOF_MESSAGES.length)]);
-        setVisible(true);
-        setTimeout(() => setVisible(false), 6000);
-      }, REPEAT_DELAY);
-
-      return () => clearInterval(interval);
+    // First show after FIRST_DELAY
+    firstTimerRef.current = setTimeout(() => {
+      showMessage();
+      // Repeat every REPEAT_DELAY
+      intervalRef.current = setInterval(showMessage, REPEAT_DELAY);
     }, FIRST_DELAY);
 
-    return () => clearTimeout(firstTimer);
-  }, [view.name, dismissed]);
+    // Cleanup all timers on unmount or dependency change
+    return () => {
+      if (firstTimerRef.current) clearTimeout(firstTimerRef.current);
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    };
+  }, [view.name, dismissed, user]);
 
   if (!visible || dismissed) return null;
 

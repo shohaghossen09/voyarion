@@ -14,11 +14,20 @@ export interface DestinationCardData {
   carCount: number;
 }
 
-export function DestinationCard({ destination, large = false }: { destination: DestinationCardData; large?: boolean }) {
+export function DestinationCard({ destination, large = false, onSelect }: { destination: DestinationCardData; large?: boolean; onSelect?: (d: DestinationCardData) => void }) {
   const { setView } = useAppStore();
+
+  const handleClick = () => {
+    if (onSelect) {
+      onSelect(destination);
+    } else {
+      setView({ name: "destination-detail", destinationId: destination.id });
+    }
+  };
+
   return (
     <div
-      onClick={() => setView({ name: "destination-detail", destinationId: destination.id })}
+      onClick={handleClick}
       className={`group relative overflow-hidden rounded-2xl ${large ? "aspect-[4/5] lg:aspect-[3/4]" : "aspect-[3/4]"} premium-card cursor-pointer text-left bg-card border border-border-subtle`}
     >
       <img

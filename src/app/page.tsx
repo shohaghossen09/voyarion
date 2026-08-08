@@ -5,7 +5,6 @@ import { useAppStore } from "@/store/useAppStore";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { SignupPopup } from "@/components/site/SignupPopup";
-import { ToastContainer } from "@/components/site/ToastContainer";
 import { SocialProofToast } from "@/components/site/SocialProofToast";
 import { HomeView } from "@/components/views/HomeView";
 import { HotelsView } from "@/components/views/HotelsView";
@@ -50,7 +49,7 @@ export default function Home() {
         {view.name === "cars" && <CarsView />}
         {view.name === "car-detail" && <CarDetailView carId={view.carId} />}
         {view.name === "destinations" && <DestinationsView />}
-        {view.name === "destination-detail" && <DestinationsView />}
+        {view.name === "destination-detail" && <DestinationsView destinationId={view.destinationId} />}
         {view.name === "deals" && <SimplePage kind="deals" />}
         {view.name === "about" && <SimplePage kind="about" />}
         {view.name === "help" && <SimplePage kind="help" />}
@@ -68,7 +67,6 @@ export default function Home() {
       </main>
       {!isAuthView && !isCheckoutFlow && <Footer />}
       <SignupPopup />
-      <ToastContainer />
       <SocialProofToast />
     </div>
   );
