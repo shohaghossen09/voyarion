@@ -212,7 +212,7 @@ export function AdminPanelView({ tab: initialTab }: { tab?: string }) {
                     <h3 className="font-semibold mb-4">Recent bookings</h3>
                     <div className="space-y-2">
                       {(stats?.recentBookings || []).slice(0, 5).map((b: any) => (
-                        <div key={b.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/40">
+                        <div key={b.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-surface/40">
                           <Avatar className="w-8 h-8"><AvatarFallback className="text-[10px]">{b.customer?.name?.slice(0,2).toUpperCase()}</AvatarFallback></Avatar>
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-medium truncate">{b.customer?.name}</p>
@@ -227,7 +227,7 @@ export function AdminPanelView({ tab: initialTab }: { tab?: string }) {
                     <h3 className="font-semibold mb-4">Recent signups</h3>
                     <div className="space-y-2">
                       {(stats?.recentUsers || []).slice(0, 5).map((u: any) => (
-                        <div key={u.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/40">
+                        <div key={u.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-surface/40">
                           <Avatar className="w-8 h-8"><AvatarImage src={u.avatarUrl} /><AvatarFallback className="text-[10px]">{u.name?.slice(0,2).toUpperCase()}</AvatarFallback></Avatar>
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-medium truncate">{u.name}</p>
@@ -275,7 +275,7 @@ export function AdminPanelView({ tab: initialTab }: { tab?: string }) {
                   </thead>
                   <tbody>
                     {users.map(u => (
-                      <tr key={u.id} className="border-b border-border/40 hover:bg-muted/30">
+                      <tr key={u.id} className="border-b border-border/40 hover:bg-surface/30">
                         <td className="py-3 px-2">
                           <div className="flex items-center gap-3">
                             <Avatar className="w-8 h-8"><AvatarImage src={u.avatarUrl} /><AvatarFallback className="text-[10px]">{u.name?.slice(0,2).toUpperCase()}</AvatarFallback></Avatar>
@@ -335,7 +335,7 @@ export function AdminPanelView({ tab: initialTab }: { tab?: string }) {
                   </thead>
                   <tbody>
                     {bookings.map(b => (
-                      <tr key={b.id} className="border-b border-border/40 hover:bg-muted/30">
+                      <tr key={b.id} className="border-b border-border/40 hover:bg-surface/30">
                         <td className="py-3 px-2 font-mono text-xs">{b.reference}</td>
                         <td className="py-3 px-2"><p className="font-medium">{b.customer?.name}</p></td>
                         <td className="py-3 px-2 text-xs">{b.hotel?.name || `${b.car?.brand} ${b.car?.model}`}</td>
@@ -361,7 +361,7 @@ export function AdminPanelView({ tab: initialTab }: { tab?: string }) {
                   <Button size="sm" variant="outline" onClick={() => toast.info("Add hotel form coming soon")}><Building2 className="w-3.5 h-3.5 mr-1" /> Add hotel</Button>
                 </div>
                 <p className="text-sm text-muted-foreground">Manage hotel inventory, rooms, and pricing.</p>
-                <div className="mt-4 p-4 rounded-xl bg-muted/30">
+                <div className="mt-4 p-4 rounded-xl bg-surface/30">
                   <p className="text-2xl font-bold">{stats?.stats.totalHotels || 0}</p>
                   <p className="text-xs text-muted-foreground">Published properties</p>
                 </div>
@@ -372,7 +372,7 @@ export function AdminPanelView({ tab: initialTab }: { tab?: string }) {
                   <Button size="sm" variant="outline" onClick={() => toast.info("Add car form coming soon")}><CarIcon className="w-3.5 h-3.5 mr-1" /> Add car</Button>
                 </div>
                 <p className="text-sm text-muted-foreground">Manage vehicle inventory, owners, and approvals.</p>
-                <div className="mt-4 p-4 rounded-xl bg-muted/30">
+                <div className="mt-4 p-4 rounded-xl bg-surface/30">
                   <p className="text-2xl font-bold">{stats?.stats.totalCars || 0}</p>
                   <p className="text-xs text-muted-foreground">Active listings</p>
                 </div>
@@ -392,7 +392,7 @@ export function AdminPanelView({ tab: initialTab }: { tab?: string }) {
               <h3 className="font-semibold mb-4">Recent payments</h3>
               <div className="space-y-2">
                 {bookings.filter(b => b.payment).slice(0, 10).map(b => (
-                  <div key={b.id} className="flex items-center justify-between p-3 rounded-xl bg-muted/30">
+                  <div key={b.id} className="flex items-center justify-between p-3 rounded-xl bg-surface/30">
                     <div>
                       <p className="font-medium text-sm">{b.reference}</p>
                       <p className="text-xs text-muted-foreground">{b.customer?.name} · {b.payment?.method}</p>
@@ -413,15 +413,15 @@ export function AdminPanelView({ tab: initialTab }: { tab?: string }) {
               <h3 className="font-semibold mb-4">Audit log ({auditLogs.length})</h3>
               <div className="space-y-2">
                 {auditLogs.map((log) => (
-                  <div key={log.id} className="flex items-start gap-3 p-3 rounded-xl bg-muted/30">
-                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0"><ScrollText className="w-4 h-4 text-primary" /></div>
+                  <div key={log.id} className="flex items-start gap-3 p-3 rounded-xl bg-surface/30">
+                    <div className="w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center shrink-0"><ScrollText className="w-4 h-4 text-gold" /></div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
                         <p className="text-sm font-semibold">{log.action.replace(/_/g, " ")}</p>
                         <Badge variant="outline" className="text-[10px]">{log.entity}</Badge>
                       </div>
                       <p className="text-xs text-muted-foreground mt-0.5">By {log.actor?.name || "System"} · {new Date(log.createdAt).toLocaleString()}</p>
-                      {log.metadata && <pre className="text-[10px] text-muted-foreground/70 mt-1 bg-muted/40 p-2 rounded overflow-x-auto">{JSON.stringify(log.metadata, null, 2)}</pre>}
+                      {log.metadata && <pre className="text-[10px] text-muted-foreground/70 mt-1 bg-surface/40 p-2 rounded overflow-x-auto">{JSON.stringify(log.metadata, null, 2)}</pre>}
                     </div>
                   </div>
                 ))}
@@ -454,8 +454,8 @@ function StatCard({ icon: Icon, label, value, trend, trendUp, color }: any) {
   return (
     <div className="stat-card">
       <div className="flex items-center justify-between mb-2">
-        <div className={cn("w-9 h-9 rounded-lg flex items-center justify-center", color === "gold" ? "bg-gold/15" : "bg-primary/10")}>
-          <Icon className={cn("w-4 h-4", color === "gold" ? "text-gold" : "text-primary")} />
+        <div className={cn("w-9 h-9 rounded-lg flex items-center justify-center", color === "gold" ? "bg-gold/15" : "bg-gold/10")}>
+          <Icon className={cn("w-4 h-4", color === "gold" ? "text-gold" : "text-gold")} />
         </div>
         {trend && <span className={`text-[10px] font-medium flex items-center gap-0.5 ${trendUp ? "text-green-600" : "text-muted-foreground"}`}>{trendUp && <TrendingUp className="w-3 h-3" />}{trend}</span>}
       </div>
@@ -479,7 +479,7 @@ function DashboardSkeleton() {
 
 function SettingRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between p-2 rounded-lg bg-muted/30">
+    <div className="flex items-center justify-between p-2 rounded-lg bg-surface/30">
       <span className="text-muted-foreground">{label}</span>
       <span className="font-semibold">{value}</span>
     </div>

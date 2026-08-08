@@ -17,7 +17,7 @@ import {
 } from "recharts";
 import {
   LayoutDashboard, Car as CarIcon, CalendarDays, DollarSign, Settings, ChevronLeft, Plus,
-  TrendingUp, TrendingDown, Wallet, Clock, Users, Star, Edit, Eye, Trash, ArrowUpRight, Check,
+  TrendingUp, TrendingDown, Wallet, Clock, Users, Star, Edit, Eye, Trash, ArrowUpRight, Check, X,
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -69,7 +69,7 @@ export function OwnerPortalView({ tab: initialTab }: { tab?: string }) {
             <div className="flex items-center gap-4">
               <Avatar className="w-14 h-14 ring-2 ring-border">
                 <AvatarImage src={user.avatarUrl} />
-                <AvatarFallback className="bg-primary/10 text-primary">{user.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+                <AvatarFallback className="bg-gold/10 text-gold">{user.name.slice(0, 2).toUpperCase()}</AvatarFallback>
               </Avatar>
               <div>
                 <div className="flex items-center gap-2">
@@ -79,7 +79,7 @@ export function OwnerPortalView({ tab: initialTab }: { tab?: string }) {
                 <p className="text-sm text-muted-foreground">{user.email}</p>
               </div>
             </div>
-            <Button className="btn-premium bg-primary hover:bg-primary/90 text-primary-foreground hidden sm:flex" onClick={() => setAddOpen(true)}>
+            <Button className="btn-gold hidden sm:flex" onClick={() => setAddOpen(true)}>
               <Plus className="w-4 h-4 mr-1" /> Add vehicle
             </Button>
           </div>
@@ -154,8 +154,8 @@ export function OwnerPortalView({ tab: initialTab }: { tab?: string }) {
                   <h3 className="font-semibold mb-4">Vehicle performance</h3>
                   <div className="space-y-3">
                     {(stats?.vehiclePerformance || []).slice(0, 5).map((v: any, i: number) => (
-                      <div key={v.id} className="flex items-center gap-4 p-3 rounded-xl bg-muted/30">
-                        <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">#{i+1}</div>
+                      <div key={v.id} className="flex items-center gap-4 p-3 rounded-xl bg-surface/30">
+                        <div className="w-7 h-7 rounded-full bg-gold/10 flex items-center justify-center text-xs font-bold text-gold">#{i+1}</div>
                         <div className="flex-1 min-w-0">
                           <p className="font-medium text-sm">{v.name} ({v.year})</p>
                           <p className="text-xs text-muted-foreground">{v.bookings} bookings</p>
@@ -177,7 +177,7 @@ export function OwnerPortalView({ tab: initialTab }: { tab?: string }) {
                   ) : (
                     <div className="space-y-2">
                       {(stats?.recentBookings || []).map((b: any) => (
-                        <div key={b.id} className="flex items-center gap-3 p-3 rounded-xl hover:bg-muted/40 transition-colors">
+                        <div key={b.id} className="flex items-center gap-3 p-3 rounded-xl hover:bg-surface/40 transition-colors">
                           <Avatar className="w-9 h-9"><AvatarFallback>{b.customer?.name?.slice(0,2).toUpperCase()}</AvatarFallback></Avatar>
                           <div className="flex-1 min-w-0">
                             <p className="font-medium text-sm">{b.customer?.name}</p>
@@ -198,7 +198,7 @@ export function OwnerPortalView({ tab: initialTab }: { tab?: string }) {
           <TabsContent value="vehicles">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold">My vehicles ({vehicles.length})</h2>
-              <Button className="btn-premium bg-primary hover:bg-primary/90 text-primary-foreground" onClick={() => setAddOpen(true)}>
+              <Button className="btn-gold" onClick={() => setAddOpen(true)}>
                 <Plus className="w-4 h-4 mr-1" /> Add vehicle
               </Button>
             </div>
@@ -206,7 +206,7 @@ export function OwnerPortalView({ tab: initialTab }: { tab?: string }) {
               <div className="space-y-3">
                 {vehicles.map(v => (
                   <div key={v.id} className="bg-card border border-border/60 rounded-2xl overflow-hidden flex flex-col sm:flex-row hover:shadow-premium transition-shadow">
-                    <div className="sm:w-44 aspect-[4/3] sm:aspect-auto bg-muted shrink-0">
+                    <div className="sm:w-44 aspect-[4/3] sm:aspect-auto bg-surface shrink-0">
                       <img src={v.heroImage} alt="" className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1 p-4 flex flex-col sm:flex-row sm:items-center gap-3">
@@ -244,16 +244,16 @@ export function OwnerPortalView({ tab: initialTab }: { tab?: string }) {
 
           {/* Bookings */}
           <TabsContent value="bookings">
-            <h2 className="text-lg font-bold mb-4">Booking requests ({bookings.length})</h2>
+            <h2 className="text-lg font-bold mb-4 text-foreground" style={{ fontFamily: "var(--font-playfair), serif" }}>Booking requests ({bookings.length})</h2>
             {loading ? <div className="space-y-3">{[1,2,3].map(i => <Skeleton key={i} className="h-32 w-full rounded-2xl" />)}</div> : (
               <div className="space-y-3">
                 {bookings.map(b => (
-                  <div key={b.id} className="bg-card border border-border/60 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center gap-3">
-                    <Avatar className="w-10 h-10"><AvatarFallback>{b.customer?.name?.slice(0,2).toUpperCase()}</AvatarFallback></Avatar>
+                  <div key={b.id} className="bg-card border border-border-subtle rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center gap-3">
+                    <Avatar className="w-10 h-10 ring-2 ring-gold/20"><AvatarFallback className="bg-gold/10 text-gold">{b.customer?.name?.slice(0,2).toUpperCase()}</AvatarFallback></Avatar>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <p className="font-semibold text-sm">{b.customer?.name}</p>
-                        <Badge className={cn("text-[10px]", b.bookingStatus === "CONFIRMED" ? "bg-green-100 text-green-700" : b.bookingStatus === "PENDING" ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700")}>{b.bookingStatus}</Badge>
+                        <p className="font-semibold text-sm text-foreground">{b.customer?.name}</p>
+                        <Badge className={cn("text-[10px]", b.bookingStatus === "CONFIRMED" ? "bg-green-500/15 text-green-400 border border-green-500/30" : b.bookingStatus === "PENDING" ? "bg-amber-500/15 text-amber-400 border border-amber-500/30" : b.bookingStatus === "COMPLETED" ? "bg-blue-500/15 text-blue-400 border border-blue-500/30" : "bg-red-500/15 text-red-400 border border-red-500/30")}>{b.bookingStatus}</Badge>
                       </div>
                       <p className="text-xs text-muted-foreground mt-0.5">
                         {b.car ? `${b.car.brand} ${b.car.model}` : "N/A"} · {new Date(b.startDate).toLocaleDateString()} → {new Date(b.endDate).toLocaleDateString()}
@@ -261,15 +261,25 @@ export function OwnerPortalView({ tab: initialTab }: { tab?: string }) {
                       {b.pickupLocation && <p className="text-xs text-muted-foreground">Pickup: {b.pickupLocation}</p>}
                     </div>
                     <div className="text-right">
-                      <p className="font-bold">${b.totalAmount.toFixed(0)}</p>
+                      <p className="font-bold text-foreground">${b.totalAmount.toFixed(0)}</p>
                       <p className="text-[10px] text-muted-foreground">Your payout: ${((b.totalAmount * 0.88) - (b.car?.securityDeposit || 0)).toFixed(0)}</p>
                     </div>
+                    {b.bookingStatus === "PENDING" && (
+                      <div className="flex gap-2">
+                        <Button size="sm" className="btn-gold" onClick={() => toast.success("Booking accepted! Customer notified.")}>
+                          <Check className="w-3.5 h-3.5 mr-1" /> Accept
+                        </Button>
+                        <Button size="sm" variant="outline" className="border-red-500/30 text-red-400 hover:bg-red-500/10" onClick={() => toast.info("Booking declined")}>
+                          <X className="w-3.5 h-3.5 mr-1" /> Decline
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 ))}
                 {bookings.length === 0 && (
-                  <div className="text-center py-20 bg-card border border-border/60 rounded-2xl">
+                  <div className="text-center py-20 bg-card border border-border-subtle rounded-2xl">
                     <CalendarDays className="w-12 h-12 mx-auto text-muted-foreground" />
-                    <h3 className="mt-3 font-semibold">No bookings yet</h3>
+                    <h3 className="mt-3 font-semibold text-foreground" style={{ fontFamily: "var(--font-playfair), serif" }}>No bookings yet</h3>
                     <p className="mt-1 text-sm text-muted-foreground">When customers book your vehicles, they'll appear here.</p>
                   </div>
                 )}
@@ -295,7 +305,7 @@ export function OwnerPortalView({ tab: initialTab }: { tab?: string }) {
                   { date: "Jun 1, 2026", amount: 3450.25, status: "Paid", method: "Stripe Connect" },
                   { date: "Sep 1, 2026 (pending)", amount: 6240.00, status: "Pending", method: "Stripe Connect" },
                 ].map((p, i) => (
-                  <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-muted/30">
+                  <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-surface/30">
                     <div>
                       <p className="font-medium text-sm">{p.date}</p>
                       <p className="text-xs text-muted-foreground">{p.method}</p>
@@ -309,15 +319,15 @@ export function OwnerPortalView({ tab: initialTab }: { tab?: string }) {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-primary to-teal-deep text-primary-foreground rounded-2xl p-6">
+            <div className="bg-gradient-to-br from-gold-light to-gold-dark text-background rounded-2xl p-6">
               <h3 className="font-bold text-lg">Ready to withdraw?</h3>
-              <p className="text-sm text-primary-foreground/80 mt-1">Transfer your pending payouts to your bank account.</p>
-              <div className="flex items-center justify-between mt-4 pt-4 border-t border-primary-foreground/15">
+              <p className="text-sm text-background/80 mt-1">Transfer your pending payouts to your bank account.</p>
+              <div className="flex items-center justify-between mt-4 pt-4 border-t border-gold-foreground/15">
                 <div>
-                  <p className="text-xs text-primary-foreground/70">Available balance</p>
+                  <p className="text-xs text-background/70">Available balance</p>
                   <p className="text-3xl font-bold">${(stats?.stats.pendingPayouts || 0).toLocaleString()}</p>
                 </div>
-                <Button className="bg-gold text-gold-foreground hover:bg-gold/90 btn-premium" onClick={() => toast.success("Payout initiated! Funds arrive in 3-5 business days.")}>
+                <Button className="btn-gold" onClick={() => toast.success("Payout initiated! Funds arrive in 3-5 business days.")}>
                   <Wallet className="w-4 h-4 mr-2" /> Withdraw funds
                 </Button>
               </div>
@@ -330,8 +340,8 @@ export function OwnerPortalView({ tab: initialTab }: { tab?: string }) {
               <div className="bg-card border border-border/60 rounded-2xl p-6">
                 <h3 className="font-bold mb-4">Payout method</h3>
                 <div className="space-y-3">
-                  <div className="p-3 rounded-xl bg-muted/30 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center"><Wallet className="w-5 h-5 text-primary" /></div>
+                  <div className="p-3 rounded-xl bg-surface/30 flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center"><Wallet className="w-5 h-5 text-gold" /></div>
                     <div className="flex-1">
                       <p className="font-medium text-sm">Stripe Connect</p>
                       <p className="text-xs text-muted-foreground">Connected · acct_1Voyarion</p>
@@ -366,7 +376,7 @@ function StatCard({ icon: Icon, label, value, sub, trend, trendUp }: any) {
   return (
     <div className="stat-card">
       <div className="flex items-center justify-between mb-2">
-        <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center"><Icon className="w-4 h-4 text-primary" /></div>
+        <div className="w-9 h-9 rounded-lg bg-gold/10 flex items-center justify-center"><Icon className="w-4 h-4 text-gold" /></div>
         {trend && <span className={`text-[10px] font-medium flex items-center gap-0.5 ${trendUp ? "text-green-600" : "text-muted-foreground"}`}>{trendUp && <TrendingUp className="w-3 h-3" />}{trend}</span>}
       </div>
       <p className="text-2xl font-bold">{value}</p>
@@ -475,7 +485,7 @@ function AddVehicleDialog({ open, setOpen, onSuccess }: { open: boolean; setOpen
             <Label>Features</Label>
             <div className="flex flex-wrap gap-2 mt-2">
               {ALL_FEATURES.map(f => (
-                <button key={f} type="button" onClick={() => toggleFeature(f)} className={cn("px-3 py-1.5 rounded-full text-xs font-medium border transition-all capitalize", features.includes(f) ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border hover:border-primary/40")}>
+                <button key={f} type="button" onClick={() => toggleFeature(f)} className={cn("px-3 py-1.5 rounded-full text-xs font-medium border transition-all capitalize", features.includes(f) ? "bg-gold text-gold-foreground border-gold" : "bg-card border-border hover:border-gold/40")}>
                   {f.replace(/-/g, " ")}
                 </button>
               ))}
@@ -484,7 +494,7 @@ function AddVehicleDialog({ open, setOpen, onSuccess }: { open: boolean; setOpen
 
           <div className="flex gap-2 pt-2">
             <Button variant="outline" className="flex-1" onClick={() => setOpen(false)}>Cancel</Button>
-            <Button className="btn-premium flex-1 bg-primary hover:bg-primary/90 text-primary-foreground" onClick={handleSubmit} disabled={loading}>
+            <Button className="btn-gold flex-1" onClick={handleSubmit} disabled={loading}>
               {loading ? "Adding..." : "Add vehicle"}
             </Button>
           </div>

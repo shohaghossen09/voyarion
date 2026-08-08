@@ -60,32 +60,55 @@ export function CustomerDashboardView({ tab: initialTab }: { tab?: string }) {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-card border-b border-border/60">
+      <div className="bg-card border-b border-border-subtle">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-8">
           <button onClick={() => setView({ name: "home" })} className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4">
             <ChevronLeft className="w-4 h-4" /> Back to home
           </button>
-          <div className="flex items-center gap-4">
-            <Avatar className="w-16 h-16 ring-4 ring-border">
-              <AvatarImage src={user.avatarUrl} />
-              <AvatarFallback className="bg-primary/10 text-primary text-xl font-bold">{user.name.slice(0, 2).toUpperCase()}</AvatarFallback>
-            </Avatar>
-            <div>
-              <h1 className="text-2xl lg:text-3xl font-bold">{user.name}</h1>
-              <p className="text-sm text-muted-foreground">{user.email}</p>
-              <Badge className="mt-1.5 text-[10px] uppercase tracking-wider">{user.role.replace("_", " ")}</Badge>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <Avatar className="w-16 h-16 ring-4 ring-gold/20">
+                <AvatarImage src={user.avatarUrl} />
+                <AvatarFallback className="bg-gold/10 text-gold text-xl font-bold">{user.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+              </Avatar>
+              <div>
+                <h1 className="text-2xl lg:text-3xl font-bold text-foreground" style={{ fontFamily: "var(--font-playfair), serif" }}>{user.name}</h1>
+                <p className="text-sm text-muted-foreground">{user.email}</p>
+                <div className="flex items-center gap-2 mt-1.5">
+                  <Badge className="text-[10px] uppercase tracking-wider bg-gold/15 text-gold border border-gold/30">{user.role.replace("_", " ")}</Badge>
+                  <Badge variant="outline" className="text-[10px] uppercase tracking-wider border-border-subtle text-muted-foreground">Gold Member</Badge>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="text-center px-4 py-2 rounded-xl bg-surface border border-border-subtle">
+                <p className="text-xs text-muted-foreground">Loyalty points</p>
+                <p className="text-lg font-bold text-gradient-gold" style={{ fontFamily: "var(--font-playfair), serif" }}>2,450</p>
+              </div>
+              <div className="text-center px-4 py-2 rounded-xl bg-surface border border-border-subtle">
+                <p className="text-xs text-muted-foreground">Member since</p>
+                <p className="text-sm font-bold text-foreground">2026</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-8">
+        {/* Quick stats */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <QuickStat label="Upcoming" value={upcoming.length} icon={Calendar} />
+          <QuickStat label="Active" value={active.length} icon={Clock} />
+          <QuickStat label="Completed" value={completed.length} icon={CheckCircle2} />
+          <QuickStat label="Saved" value={favorites.length} icon={Heart} />
+        </div>
+
         <Tabs value={tab} onValueChange={setTab}>
           <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 mb-6 h-auto">
-            <TabsTrigger value="bookings" className="flex items-center gap-1.5 py-2.5"><Calendar className="w-4 h-4" /> Bookings</TabsTrigger>
-            <TabsTrigger value="favorites" className="flex items-center gap-1.5 py-2.5"><Heart className="w-4 h-4" /> Favorites</TabsTrigger>
-            <TabsTrigger value="profile" className="flex items-center gap-1.5 py-2.5"><User className="w-4 h-4" /> Profile</TabsTrigger>
-            <TabsTrigger value="notifications" className="flex items-center gap-1.5 py-2.5"><Bell className="w-4 h-4" /> Alerts</TabsTrigger>
+            <TabsTrigger value="bookings" className="flex items-center gap-1.5 py-2.5 data-[state=active]:bg-gold data-[state=active]:text-background"><Calendar className="w-4 h-4" /> Bookings</TabsTrigger>
+            <TabsTrigger value="favorites" className="flex items-center gap-1.5 py-2.5 data-[state=active]:bg-gold data-[state=active]:text-background"><Heart className="w-4 h-4" /> Favorites</TabsTrigger>
+            <TabsTrigger value="profile" className="flex items-center gap-1.5 py-2.5 data-[state=active]:bg-gold data-[state=active]:text-background"><User className="w-4 h-4" /> Profile</TabsTrigger>
+            <TabsTrigger value="notifications" className="flex items-center gap-1.5 py-2.5 data-[state=active]:bg-gold data-[state=active]:text-background"><Bell className="w-4 h-4" /> Alerts</TabsTrigger>
           </TabsList>
 
           {/* Bookings */}
@@ -98,7 +121,7 @@ export function CustomerDashboardView({ tab: initialTab }: { tab?: string }) {
               ) : (
                 <div className="space-y-4">
                   {bookings.map(b => (
-                    <BookingCard key={b.id} booking={b} onView={() => setSelectedBooking(b)} onCancel={() => handleCancel(b.id)} />
+                    <BookingCard key={b.id} booking={b} onView={() => setSelectedBooking(b)} onCancel={() => handleCancel(b.id)} onTrack={() => setView({ name: "booking-tracking", bookingId: b.id })} />
                   ))}
                 </div>
               )}
@@ -115,7 +138,7 @@ export function CustomerDashboardView({ tab: initialTab }: { tab?: string }) {
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                   {favorites.map(f => (
                     <div key={f.id} className="bg-card border border-border/60 rounded-2xl overflow-hidden">
-                      <div className="aspect-[4/3] bg-muted">
+                      <div className="aspect-[4/3] bg-surface">
                         <img src={f.image} alt={f.name} className="w-full h-full object-cover" />
                       </div>
                       <div className="p-4">
@@ -168,9 +191,9 @@ export function CustomerDashboardView({ tab: initialTab }: { tab?: string }) {
                 { title: "Payment received", desc: "We processed your payment of $1,840.00.", time: "1 day ago", unread: true },
                 { title: "Welcome to Voyarion", desc: "Complete your profile to get personalized recommendations.", time: "1 week ago", unread: false },
               ].map((n, i) => (
-                <div key={i} className={`p-4 rounded-xl border ${n.unread ? "bg-primary/5 border-primary/30" : "bg-card border-border/60"}`}>
+                <div key={i} className={`p-4 rounded-xl border ${n.unread ? "bg-gold/5 border-primary/30" : "bg-card border-border/60"}`}>
                   <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center"><Bell className="w-4 h-4 text-primary" /></div>
+                    <div className="w-9 h-9 rounded-full bg-gold/10 flex items-center justify-center"><Bell className="w-4 h-4 text-gold" /></div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
                         <p className="font-semibold text-sm">{n.title}</p>
@@ -178,7 +201,7 @@ export function CustomerDashboardView({ tab: initialTab }: { tab?: string }) {
                       </div>
                       <p className="text-sm text-muted-foreground mt-1">{n.desc}</p>
                     </div>
-                    {n.unread && <span className="w-2 h-2 rounded-full bg-primary mt-1.5" />}
+                    {n.unread && <span className="w-2 h-2 rounded-full bg-gold mt-1.5" />}
                   </div>
                 </div>
               ))}
@@ -239,7 +262,21 @@ export function CustomerDashboardView({ tab: initialTab }: { tab?: string }) {
   );
 }
 
-function BookingCard({ booking, onView, onCancel }: { booking: any; onView: () => void; onCancel: () => void }) {
+function QuickStat({ label, value, icon: Icon }: { label: string; value: number; icon: any }) {
+  return (
+    <div className="stat-card flex items-center gap-3">
+      <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center shrink-0">
+        <Icon className="w-5 h-5 text-gold" />
+      </div>
+      <div>
+        <p className="text-2xl font-bold text-foreground">{value}</p>
+        <p className="text-xs text-muted-foreground">{label}</p>
+      </div>
+    </div>
+  );
+}
+
+function BookingCard({ booking, onView, onCancel, onTrack }: { booking: any; onView: () => void; onCancel: () => void; onTrack: () => void }) {
   const statusColors: any = {
     PENDING: "bg-amber-100 text-amber-700",
     CONFIRMED: "bg-green-100 text-green-700",
@@ -254,7 +291,7 @@ function BookingCard({ booking, onView, onCancel }: { booking: any; onView: () =
 
   return (
     <div className="bg-card border border-border/60 rounded-2xl overflow-hidden flex flex-col sm:flex-row hover:shadow-premium transition-shadow">
-      <div className="sm:w-48 aspect-[4/3] sm:aspect-auto bg-muted shrink-0">
+      <div className="sm:w-48 aspect-[4/3] sm:aspect-auto bg-surface shrink-0">
         <img src={img} alt={name} className="w-full h-full object-cover" />
       </div>
       <div className="flex-1 p-4 lg:p-5 flex flex-col sm:flex-row sm:items-center gap-4">
@@ -274,6 +311,7 @@ function BookingCard({ booking, onView, onCancel }: { booking: any; onView: () =
         <div className="flex sm:flex-col items-center sm:items-end gap-2 sm:gap-1">
           <p className="text-lg font-bold">${booking.totalAmount.toFixed(2)}</p>
           <div className="flex gap-2">
+            <Button size="sm" variant="outline" onClick={onTrack} className="border-gold/30 text-gold hover:bg-gold/10 hover:text-gold">Track</Button>
             <Button size="sm" variant="outline" onClick={onView}>View</Button>
             {["PENDING", "CONFIRMED"].includes(booking.bookingStatus) && (
               <Button size="sm" variant="ghost" className="text-destructive hover:text-destructive" onClick={onCancel}>Cancel</Button>
@@ -287,7 +325,7 @@ function BookingCard({ booking, onView, onCancel }: { booking: any; onView: () =
 
 function ProfileField({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
+    <div className="flex items-center justify-between p-3 rounded-lg bg-surface/30">
       <span className="text-sm text-muted-foreground">{label}</span>
       <span className="text-sm font-semibold">{value}</span>
     </div>
@@ -296,7 +334,7 @@ function ProfileField({ label, value }: { label: string; value: string }) {
 
 function Detail({ label, value }: { label: string; value: string }) {
   return (
-    <div className="p-2 rounded-lg bg-muted/30">
+    <div className="p-2 rounded-lg bg-surface/30">
       <p className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</p>
       <p className="text-sm font-semibold mt-0.5">{value}</p>
     </div>
@@ -315,7 +353,7 @@ function Row({ label, value }: { label: string; value: string }) {
 function EmptyState({ title, desc, action, actionLabel }: { title: string; desc: string; action: () => void; actionLabel: string }) {
   return (
     <div className="text-center py-20 bg-card border border-border/60 rounded-2xl">
-      <div className="w-16 h-16 mx-auto rounded-full bg-muted flex items-center justify-center">
+      <div className="w-16 h-16 mx-auto rounded-full bg-surface flex items-center justify-center">
         <Heart className="w-8 h-8 text-muted-foreground" />
       </div>
       <h3 className="mt-4 text-lg font-semibold">{title}</h3>

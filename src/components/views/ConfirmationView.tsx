@@ -61,7 +61,7 @@ export function ConfirmationView({ bookingId }: { bookingId: string }) {
 
         {/* Booking card */}
         <div className="bg-card border border-border/60 rounded-2xl overflow-hidden shadow-premium">
-          <div className="relative aspect-[16/7] bg-muted">
+          <div className="relative aspect-[16/7] bg-surface">
             <img src={img} alt={name} className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
             <div className="absolute bottom-4 left-5 right-5 flex items-end justify-between">
@@ -75,7 +75,7 @@ export function ConfirmationView({ bookingId }: { bookingId: string }) {
 
           <div className="p-6 lg:p-8">
             {/* Booking ref */}
-            <div className="flex items-center justify-between p-4 rounded-xl bg-muted/40 mb-6">
+            <div className="flex items-center justify-between p-4 rounded-xl bg-surface/40 mb-6">
               <div>
                 <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Booking reference</p>
                 <p className="font-mono font-bold text-lg">{booking.reference}</p>
@@ -101,7 +101,7 @@ export function ConfirmationView({ bookingId }: { bookingId: string }) {
             </div>
 
             {/* Price breakdown */}
-            <div className="p-4 rounded-xl bg-muted/30 mb-6">
+            <div className="p-4 rounded-xl bg-surface/30 mb-6">
               <h3 className="text-sm font-semibold mb-3">Price breakdown</h3>
               <div className="space-y-2 text-sm">
                 <Row label="Base price" value={`$${booking.basePrice.toFixed(2)}`} />
@@ -127,10 +127,10 @@ export function ConfirmationView({ bookingId }: { bookingId: string }) {
               <Button variant="outline" className="flex-1" onClick={() => toast.success("Confirmation downloaded")}>
                 <Download className="w-4 h-4 mr-2" /> Download voucher
               </Button>
-              <Button variant="outline" className="flex-1" onClick={() => setView({ name: "customer-dashboard", tab: "bookings" })}>
-                <CalendarDays className="w-4 h-4 mr-2" /> View my bookings
+              <Button variant="outline" className="flex-1 border-gold/30 text-gold hover:bg-gold/10 hover:text-gold" onClick={() => setView({ name: "booking-tracking", bookingId })}>
+                <CalendarDays className="w-4 h-4 mr-2" /> Track booking
               </Button>
-              <Button className="btn-premium flex-1 bg-primary hover:bg-primary/90 text-primary-foreground" onClick={() => setView({ name: "home" })}>
+              <Button className="btn-gold flex-1" onClick={() => setView({ name: "home" })}>
                 <Home className="w-4 h-4 mr-2" /> Back to home
               </Button>
             </div>
@@ -141,10 +141,10 @@ export function ConfirmationView({ bookingId }: { bookingId: string }) {
         <div className="mt-6 bg-card border border-border/60 rounded-2xl p-6">
           <h3 className="font-bold mb-3">What's next?</h3>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" /> You'll receive a confirmation email shortly with all the details.</li>
-            <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" /> Add the booking to your calendar so you don't miss it.</li>
-            <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" /> Free cancellation is available up to 48 hours before your start date.</li>
-            <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" /> Need help? Our 24/7 support team is one click away.</li>
+            <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-gold mt-0.5 shrink-0" /> You'll receive a confirmation email shortly with all the details.</li>
+            <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-gold mt-0.5 shrink-0" /> Add the booking to your calendar so you don't miss it.</li>
+            <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-gold mt-0.5 shrink-0" /> Free cancellation is available up to 48 hours before your start date.</li>
+            <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-gold mt-0.5 shrink-0" /> Need help? Our 24/7 support team is one click away.</li>
           </ul>
         </div>
       </div>
@@ -154,8 +154,8 @@ export function ConfirmationView({ bookingId }: { bookingId: string }) {
 
 function Detail({ icon: Icon, label, value }: { icon: any; label: string; value: string }) {
   return (
-    <div className="p-3 rounded-xl bg-muted/30 flex items-start gap-3">
-      <Icon className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+    <div className="p-3 rounded-xl bg-surface/30 flex items-start gap-3">
+      <Icon className="w-4 h-4 text-gold mt-0.5 shrink-0" />
       <div className="min-w-0">
         <p className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</p>
         <p className="text-sm font-semibold mt-0.5 truncate">{value}</p>

@@ -32,7 +32,7 @@ export function DestinationsView() {
       <div className="bg-card border-b border-border/60">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center max-w-2xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gold/10 text-gold text-xs font-medium mb-4">
               <Globe className="w-3.5 h-3.5" /> 92 countries · 1,800+ partners
             </div>
             <h1 className="text-3xl lg:text-5xl font-bold tracking-tight">Explore destinations</h1>
@@ -80,7 +80,7 @@ function DestinationDetail({ destination, onBack }: { destination: DestinationCa
 
   return (
     <div>
-      <div className="relative aspect-[16/7] bg-muted">
+      <div className="relative aspect-[16/7] bg-surface">
         <img src={destination.heroImage} alt={destination.name} className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
         <div className="absolute bottom-6 left-0 right-0 mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 text-white">
@@ -97,8 +97,8 @@ function DestinationDetail({ destination, onBack }: { destination: DestinationCa
 
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-10">
         <div className="flex gap-2 mb-6">
-          <button onClick={() => setTab("hotels")} className={`px-4 py-2 rounded-lg text-sm font-semibold ${tab === "hotels" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground hover:bg-muted/70"}`}>Hotels ({hotels.length})</button>
-          <button onClick={() => setTab("cars")} className={`px-4 py-2 rounded-lg text-sm font-semibold ${tab === "cars" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground hover:bg-muted/70"}`}>Cars ({cars.length})</button>
+          <button onClick={() => setTab("hotels")} className={`px-4 py-2 rounded-lg text-sm font-semibold ${tab === "hotels" ? "bg-gold text-gold-foreground" : "bg-surface text-foreground hover:bg-white/[0.04]"}`}>Hotels ({hotels.length})</button>
+          <button onClick={() => setTab("cars")} className={`px-4 py-2 rounded-lg text-sm font-semibold ${tab === "cars" ? "bg-gold text-gold-foreground" : "bg-surface text-foreground hover:bg-white/[0.04]"}`}>Cars ({cars.length})</button>
         </div>
         {tab === "hotels" && hotels.length === 0 && <p className="text-center text-muted-foreground py-10">No hotels found in this destination.</p>}
         {tab === "cars" && cars.length === 0 && <p className="text-center text-muted-foreground py-10">No cars found in this destination.</p>}
@@ -122,7 +122,7 @@ function DestinationDetail({ destination, onBack }: { destination: DestinationCa
 function HotelMini({ hotel }: any) {
   return (
     <div className="bg-card border border-border/60 rounded-2xl overflow-hidden premium-card">
-      <div className="aspect-[4/3] bg-muted"><img src={hotel.heroImage} alt="" className="w-full h-full object-cover" /></div>
+      <div className="aspect-[4/3] bg-surface"><img src={hotel.heroImage} alt="" className="w-full h-full object-cover" /></div>
       <div className="p-4">
         <h3 className="font-semibold truncate">{hotel.name}</h3>
         <p className="text-xs text-muted-foreground">{hotel.shortLocation}</p>
@@ -135,7 +135,7 @@ function HotelMini({ hotel }: any) {
 function CarMini({ car }: any) {
   return (
     <div className="bg-card border border-border/60 rounded-2xl overflow-hidden premium-card">
-      <div className="aspect-[16/10] bg-muted"><img src={car.heroImage} alt="" className="w-full h-full object-cover" /></div>
+      <div className="aspect-[16/10] bg-surface"><img src={car.heroImage} alt="" className="w-full h-full object-cover" /></div>
       <div className="p-4">
         <h3 className="font-semibold truncate">{car.brand} {car.model}</h3>
         <p className="text-xs text-muted-foreground">{car.locationCity}, {car.locationCountry}</p>

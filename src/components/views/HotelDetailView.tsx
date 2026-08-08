@@ -17,7 +17,7 @@ const AMENITY_ICONS: Record<string, any> = {
 };
 
 export function HotelDetailView({ hotelId }: { hotelId: string }) {
-  const { setView, user, setBookingDraft, toggleFavorite, isFavorited } = useAppStore();
+  const { setView, user, setBookingDraft, toggleFavorite, isFavorited, addRecentlyViewed } = useAppStore();
   const [hotel, setHotel] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState(0);
@@ -40,11 +40,22 @@ export function HotelDetailView({ hotelId }: { hotelId: string }) {
           const co = new Date(); co.setDate(co.getDate() + 10);
           setCheckIn(ci.toISOString().slice(0, 10));
           setCheckOut(co.toISOString().slice(0, 10));
+          // Track recently viewed
+          addRecentlyViewed({
+            id: data.id,
+            type: "HOTEL",
+            name: data.name,
+            image: data.heroImage,
+            location: data.shortLocation,
+            price: data.priceFrom,
+            rating: data.reviewScore,
+            viewedAt: new Date().toISOString(),
+          });
         }
       } catch (e) { console.error(e); }
       finally { setLoading(false); }
     })();
-  }, [hotelId]);
+  }, [hotelId, addRecentlyViewed]);
 
   const nights = nightsBetween(checkIn, checkOut);
   const selectedRoomObj = hotel?.rooms?.find((r: any) => r.id === selectedRoom);
@@ -134,11 +145,11 @@ export function HotelDetailView({ hotelId }: { hotelId: string }) {
 
         {/* Gallery */}
         <div className="grid lg:grid-cols-4 gap-2 mb-8 rounded-2xl overflow-hidden">
-          <button onClick={() => setGalleryOpen(true)} className="lg:col-span-2 lg:row-span-2 aspect-[4/3] lg:aspect-auto overflow-hidden bg-muted">
+          <button onClick={() => setGalleryOpen(true)} className="lg:col-span-2 lg:row-span-2 aspect-[4/3] lg:aspect-auto overflow-hidden bg-surface">
             <img src={images[0]} alt={hotel.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
           </button>
           {images.slice(1, 5).map((img: string, i: number) => (
-            <button key={i} onClick={() => setGalleryOpen(true)} className="aspect-[4/3] overflow-hidden bg-muted hidden lg:block">
+            <button key={i} onClick={() => setGalleryOpen(true)} className="aspect-[4/3] overflow-hidden bg-surface hidden lg:block">
               <img src={img} alt={`${hotel.name} ${i+2}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
             </button>
           ))}
@@ -185,7 +196,7 @@ export function HotelDetailView({ hotelId }: { hotelId: string }) {
                   };
                   return (
                     <div key={a} className="flex items-center gap-2 text-sm">
-                      {Icon ? <Icon className="w-4 h-4 text-primary" /> : <Check className="w-4 h-4 text-primary" />}
+                      {Icon ? <Icon className="w-4 h-4 text-gold" /> : <Check className="w-4 h-4 text-gold" />}
                       <span>{labels[a] || a}</span>
                     </div>
                   );
@@ -208,7 +219,7 @@ export function HotelDetailView({ hotelId }: { hotelId: string }) {
                     onClick={() => setSelectedRoom(room.id)}
                   >
                     <div className="grid sm:grid-cols-3 gap-0">
-                      <div className="aspect-[4/3] sm:aspect-auto bg-muted overflow-hidden">
+                      <div className="aspect-[4/3] sm:aspect-auto bg-surface overflow-hidden">
                         <img src={room.images[0]} alt={room.name} className="w-full h-full object-cover" />
                       </div>
                       <div className="sm:col-span-2 p-4 lg:p-5">
@@ -218,13 +229,13 @@ export function HotelDetailView({ hotelId }: { hotelId: string }) {
                             <p className="text-xs text-muted-foreground mt-1">{room.bedConfig} · Sleeps {room.maxGuests}</p>
                           </div>
                           {selectedRoom === room.id && (
-                            <Badge className="bg-primary text-primary-foreground">Selected</Badge>
+                            <Badge className="bg-gold text-gold-foreground">Selected</Badge>
                           )}
                         </div>
                         <p className="text-xs text-muted-foreground mt-2 line-clamp-2">{room.description}</p>
                         <div className="flex flex-wrap gap-1 mt-3">
                           {room.amenities.slice(0, 4).map((a: string) => (
-                            <span key={a} className="text-[10px] px-1.5 py-0.5 rounded bg-muted/60 text-muted-foreground capitalize">{a.replace(/-/g, " ")}</span>
+                            <span key={a} className="text-[10px] px-1.5 py-0.5 rounded bg-surface/60 text-muted-foreground capitalize">{a.replace(/-/g, " ")}</span>
                           ))}
                         </div>
                         <div className="flex items-end justify-between mt-4 pt-3 border-t border-border/60">
@@ -261,7 +272,7 @@ export function HotelDetailView({ hotelId }: { hotelId: string }) {
                   {hotel.reviews.slice(0, 4).map((r: any) => (
                     <div key={r.id} className="pb-4 border-b border-border/60 last:border-0 last:pb-0">
                       <div className="flex items-center gap-3 mb-2">
-                        <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                        <div className="w-9 h-9 rounded-full bg-gold/10 flex items-center justify-center text-xs font-bold text-gold">
                           {r.reviewer?.name?.slice(0, 2).toUpperCase() || "G"}
                         </div>
                         <div>
@@ -291,7 +302,7 @@ export function HotelDetailView({ hotelId }: { hotelId: string }) {
                   <AccordionContent>
                     <ul className="space-y-2 text-sm text-muted-foreground">
                       {hotel.houseRules.map((r: string, i: number) => (
-                        <li key={i} className="flex items-start gap-2"><Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />{r}</li>
+                        <li key={i} className="flex items-start gap-2"><Check className="w-4 h-4 text-gold mt-0.5 shrink-0" />{r}</li>
                       ))}
                     </ul>
                   </AccordionContent>
@@ -366,7 +377,7 @@ export function HotelDetailView({ hotelId }: { hotelId: string }) {
                     <span className="font-semibold">Total</span>
                     <span className="text-2xl font-bold">${price.totalAmount.toFixed(2)}</span>
                   </div>
-                  <Button onClick={handleReserve} className="btn-premium w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground mt-2">
+                  <Button onClick={handleReserve} className="btn-gold w-full h-12 mt-2">
                     Reserve now
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
@@ -376,16 +387,16 @@ export function HotelDetailView({ hotelId }: { hotelId: string }) {
                   <p className="text-xs text-muted-foreground py-3 border-t border-border/60">
                     Select dates and a room to see pricing.
                   </p>
-                  <Button onClick={handleReserve} className="btn-premium w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground mt-2">
+                  <Button onClick={handleReserve} className="btn-gold w-full h-12 mt-2">
                     Reserve now
                   </Button>
                 </>
               )}
 
               <div className="mt-4 pt-4 border-t border-border/60 space-y-2 text-xs text-muted-foreground">
-                <div className="flex items-center gap-2"><Shield className="w-3.5 h-3.5 text-primary" /> Free cancellation 48h</div>
-                <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-primary" /> Instant confirmation</div>
-                <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-primary" /> No booking fees</div>
+                <div className="flex items-center gap-2"><Shield className="w-3.5 h-3.5 text-gold" /> Free cancellation 48h</div>
+                <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-gold" /> Instant confirmation</div>
+                <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-gold" /> No booking fees</div>
               </div>
             </div>
           </div>

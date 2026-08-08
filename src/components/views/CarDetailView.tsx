@@ -11,7 +11,7 @@ import { calculateCarPrice, daysBetween } from "@/lib/pricing";
 import { cn } from "@/lib/utils";
 
 export function CarDetailView({ carId }: { carId: string }) {
-  const { setView, user, setBookingDraft, toggleFavorite, isFavorited } = useAppStore();
+  const { setView, user, setBookingDraft, toggleFavorite, isFavorited, addRecentlyViewed } = useAppStore();
   const [car, setCar] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState(0);
@@ -37,11 +37,22 @@ export function CarDetailView({ carId }: { carId: string }) {
           const co = new Date(); co.setDate(co.getDate() + 10);
           setPickupDate(ci.toISOString().slice(0, 10));
           setReturnDate(co.toISOString().slice(0, 10));
+          // Track recently viewed
+          addRecentlyViewed({
+            id: data.id,
+            type: "CAR",
+            name: `${data.brand} ${data.model}`,
+            image: data.heroImage,
+            location: `${data.locationCity}, ${data.locationCountry}`,
+            price: data.dailyRate,
+            rating: data.rating,
+            viewedAt: new Date().toISOString(),
+          });
         }
       } catch (e) { console.error(e); }
       finally { setLoading(false); }
     })();
-  }, [carId]);
+  }, [carId, addRecentlyViewed]);
 
   const days = daysBetween(pickupDate, returnDate);
   const price = days > 0 ? calculateCarPrice({
@@ -132,11 +143,11 @@ export function CarDetailView({ carId }: { carId: string }) {
 
         {/* Gallery */}
         <div className="grid lg:grid-cols-4 gap-2 mb-8 rounded-2xl overflow-hidden">
-          <button onClick={() => setGalleryOpen(true)} className="lg:col-span-2 lg:row-span-2 aspect-[4/3] lg:aspect-auto overflow-hidden bg-muted">
+          <button onClick={() => setGalleryOpen(true)} className="lg:col-span-2 lg:row-span-2 aspect-[4/3] lg:aspect-auto overflow-hidden bg-surface">
             <img src={images[0]} alt={`${car.brand} ${car.model}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
           </button>
           {images.slice(1, 5).map((img: string, i: number) => (
-            <button key={i} onClick={() => setGalleryOpen(true)} className="aspect-[4/3] overflow-hidden bg-muted hidden lg:block">
+            <button key={i} onClick={() => setGalleryOpen(true)} className="aspect-[4/3] overflow-hidden bg-surface hidden lg:block">
               <img src={img} alt="" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
             </button>
           ))}
@@ -174,7 +185,7 @@ export function CarDetailView({ carId }: { carId: string }) {
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {car.features.map((f: string) => (
                   <div key={f} className="flex items-center gap-2 text-sm">
-                    <Check className="w-4 h-4 text-primary shrink-0" />
+                    <Check className="w-4 h-4 text-gold shrink-0" />
                     <span className="capitalize">{f.replace(/-/g, " ")}</span>
                   </div>
                 ))}
@@ -186,7 +197,7 @@ export function CarDetailView({ carId }: { carId: string }) {
               <div className="bg-card border border-border/60 rounded-2xl p-6">
                 <h2 className="text-xl font-bold mb-4">Meet your host</h2>
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-teal-deep flex items-center justify-center text-primary-foreground font-bold">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-teal-deep flex items-center justify-center text-gold-foreground font-bold">
                     {car.owner.displayName?.slice(0, 2).toUpperCase() || "O"}
                   </div>
                   <div className="flex-1">
@@ -232,7 +243,7 @@ export function CarDetailView({ carId }: { carId: string }) {
                   {car.reviews.slice(0, 4).map((r: any) => (
                     <div key={r.id} className="pb-4 border-b border-border/60 last:border-0 last:pb-0">
                       <div className="flex items-center gap-3 mb-2">
-                        <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                        <div className="w-9 h-9 rounded-full bg-gold/10 flex items-center justify-center text-xs font-bold text-gold">
                           {r.reviewer?.name?.slice(0, 2).toUpperCase() || "G"}
                         </div>
                         <div>
@@ -320,7 +331,7 @@ export function CarDetailView({ carId }: { carId: string }) {
                     <span className="font-semibold">Total</span>
                     <span className="text-2xl font-bold">${price.totalAmount.toFixed(2)}</span>
                   </div>
-                  <Button onClick={handleBook} className="btn-premium w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground mt-2">
+                  <Button onClick={handleBook} className="btn-gold w-full h-12 mt-2">
                     Book now
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
@@ -328,14 +339,14 @@ export function CarDetailView({ carId }: { carId: string }) {
               ) : (
                 <>
                   <p className="text-xs text-muted-foreground py-3 border-t border-border/60">Select dates to see pricing.</p>
-                  <Button onClick={handleBook} className="btn-premium w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground mt-2">Book now</Button>
+                  <Button onClick={handleBook} className="btn-gold w-full h-12 mt-2">Book now</Button>
                 </>
               )}
 
               <div className="mt-4 pt-4 border-t border-border/60 space-y-2 text-xs text-muted-foreground">
-                <div className="flex items-center gap-2"><Shield className="w-3.5 h-3.5 text-primary" /> Free cancellation 48h</div>
-                <div className="flex items-center gap-2"><Award className="w-3.5 h-3.5 text-primary" /> Insurance included</div>
-                <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-primary" /> Verified owner</div>
+                <div className="flex items-center gap-2"><Shield className="w-3.5 h-3.5 text-gold" /> Free cancellation 48h</div>
+                <div className="flex items-center gap-2"><Award className="w-3.5 h-3.5 text-gold" /> Insurance included</div>
+                <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-gold" /> Verified owner</div>
               </div>
             </div>
           </div>
@@ -363,8 +374,8 @@ export function CarDetailView({ carId }: { carId: string }) {
 
 function Spec({ icon: Icon, label, value }: any) {
   return (
-    <div className="flex flex-col items-center text-center p-3 rounded-xl bg-muted/40">
-      <Icon className="w-5 h-5 text-primary mb-2" />
+    <div className="flex flex-col items-center text-center p-3 rounded-xl bg-surface/40">
+      <Icon className="w-5 h-5 text-gold mb-2" />
       <p className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</p>
       <p className="text-sm font-semibold mt-0.5">{value}</p>
     </div>
@@ -382,7 +393,7 @@ function SpecItem({ label, value }: { label: string; value: string }) {
 
 function PolicyRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between p-2 rounded-lg bg-muted/30">
+    <div className="flex items-center justify-between p-2 rounded-lg bg-surface/30">
       <span className="text-muted-foreground">{label}</span>
       <span className="font-medium">{value}</span>
     </div>
@@ -417,9 +428,9 @@ function CalendarMini({ month, setMonth, availability }: { month: Date; setMonth
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
-        <button onClick={() => setMonth(new Date(year, m - 1, 1))} className="px-2 py-1 text-sm hover:bg-muted rounded">‹</button>
+        <button onClick={() => setMonth(new Date(year, m - 1, 1))} className="px-2 py-1 text-sm hover:bg-surface rounded">‹</button>
         <span className="text-sm font-semibold">{month.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</span>
-        <button onClick={() => setMonth(new Date(year, m + 1, 1))} className="px-2 py-1 text-sm hover:bg-muted rounded">›</button>
+        <button onClick={() => setMonth(new Date(year, m + 1, 1))} className="px-2 py-1 text-sm hover:bg-surface rounded">›</button>
       </div>
       <div className="grid grid-cols-7 gap-1 text-center text-[10px] text-muted-foreground mb-1">
         {["Mo","Tu","We","Th","Fr","Sa","Su"].map(d => <div key={d} className="font-semibold">{d}</div>)}
@@ -435,7 +446,7 @@ function CalendarMini({ month, setMonth, availability }: { month: Date; setMonth
           return (
             <div key={i} className={cn(
               "aspect-square flex items-center justify-center rounded-md text-xs font-medium border",
-              isPast ? "bg-muted/30 text-muted-foreground/40 border-transparent" :
+              isPast ? "bg-surface/30 text-muted-foreground/40 border-transparent" :
               isBlocked ? "bg-red-50 border-red-200 text-red-700 line-through" :
               "bg-green-50 border-green-200 text-green-700"
             )}>

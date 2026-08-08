@@ -113,7 +113,7 @@ export function Navbar() {
           <div className="flex items-center gap-2">
             {/* Favorites */}
             <button
-              onClick={() => user ? setView({ name: "customer-dashboard", tab: "favorites" }) : setView({ name: "auth", mode: "login" })}
+              onClick={() => user ? setView({ name: "wishlist" }) : setView({ name: "auth", mode: "login" })}
               className="hidden sm:flex relative w-10 h-10 items-center justify-center rounded-full hover:bg-white/[0.06] transition-colors"
               aria-label="Saved listings"
             >
@@ -207,8 +207,8 @@ export function Navbar() {
                       <ShieldCheck className="w-4 h-4 mr-2" /> Admin panel
                     </DropdownMenuItem>
                   )}
-                  <DropdownMenuItem onClick={() => setView({ name: "customer-dashboard", tab: "favorites" })} className="cursor-pointer text-foreground/80 hover:bg-white/[0.04] hover:text-foreground">
-                    <Heart className="w-4 h-4 mr-2" /> Saved
+                  <DropdownMenuItem onClick={() => setView({ name: "wishlist" })} className="cursor-pointer text-foreground/80 hover:bg-white/[0.04] hover:text-foreground">
+                    <Heart className="w-4 h-4 mr-2" /> Wishlist
                   </DropdownMenuItem>
                   <DropdownMenuSeparator className="bg-border-subtle" />
                   <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive focus:text-destructive hover:bg-destructive/10">

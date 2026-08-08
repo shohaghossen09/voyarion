@@ -26,7 +26,7 @@ export function SimplePage({ kind }: { kind: "about" | "help" | "deals" | "terms
         <div className="mx-auto max-w-[1100px] px-4 sm:px-6 lg:px-8 py-16 space-y-12">
           <section className="grid lg:grid-cols-3 gap-8">
             <div>
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4"><Sparkles className="w-5 h-5 text-primary" /></div>
+              <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center mb-4"><Sparkles className="w-5 h-5 text-gold" /></div>
               <h3 className="font-bold text-lg">Our mission</h3>
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">To make premium travel experiences accessible to everyone — without compromising on quality, trust, or transparency. We curate every partner, verify every listing, and stand behind every booking.</p>
             </div>
@@ -36,7 +36,7 @@ export function SimplePage({ kind }: { kind: "about" | "help" | "deals" | "terms
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">Every property and vehicle is verified by our team. Every transaction is encrypted and protected. Every guest is supported 24/7. We hold ourselves to a higher standard — and our partners do too.</p>
             </div>
             <div>
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4"><Headphones className="w-5 h-5 text-primary" /></div>
+              <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center mb-4"><Headphones className="w-5 h-5 text-gold" /></div>
               <h3 className="font-bold text-lg">Our support</h3>
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">Real humans, available around the clock. Whether it's a quick question or a complex issue, our concierge team is one click away. We resolve 97% of inquiries within 2 hours.</p>
             </div>
@@ -87,7 +87,7 @@ export function SimplePage({ kind }: { kind: "about" | "help" | "deals" | "terms
           <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-12">
             <button onClick={() => setView({ name: "home" })} className="text-sm text-muted-foreground hover:text-foreground mb-3 flex items-center gap-1"><ChevronLeft className="w-4 h-4" /> Back to home</button>
             <div className="text-center max-w-2xl mx-auto">
-              <div className="w-12 h-12 mx-auto rounded-xl bg-primary/10 flex items-center justify-center mb-4"><LifeBuoy className="w-6 h-6 text-primary" /></div>
+              <div className="w-12 h-12 mx-auto rounded-xl bg-gold/10 flex items-center justify-center mb-4"><LifeBuoy className="w-6 h-6 text-gold" /></div>
               <h1 className="text-3xl lg:text-5xl font-bold tracking-tight">How can we help?</h1>
               <p className="mt-3 text-muted-foreground">Search our knowledge base or reach out to our 24/7 concierge team.</p>
             </div>
@@ -102,7 +102,7 @@ export function SimplePage({ kind }: { kind: "about" | "help" | "deals" | "terms
               { icon: Phone, title: "Phone support", desc: "24/7 concierge line", action: "+1 (415) 555-0100" },
             ].map(c => (
               <div key={c.title} className="bg-card border border-border/60 rounded-2xl p-6 text-center hover:shadow-premium transition-shadow">
-                <div className="w-12 h-12 mx-auto rounded-xl bg-primary/10 flex items-center justify-center mb-3"><c.icon className="w-5 h-5 text-primary" /></div>
+                <div className="w-12 h-12 mx-auto rounded-xl bg-gold/10 flex items-center justify-center mb-3"><c.icon className="w-5 h-5 text-gold" /></div>
                 <h3 className="font-semibold">{c.title}</h3>
                 <p className="text-xs text-muted-foreground mt-1">{c.desc}</p>
                 <Button variant="outline" size="sm" className="mt-3">{c.action}</Button>
@@ -191,7 +191,7 @@ export function SimplePage({ kind }: { kind: "about" | "help" | "deals" | "terms
         <div className="mx-auto max-w-[1100px] px-4 sm:px-6 lg:px-8 py-10">
           <button onClick={() => setView({ name: "home" })} className="text-sm text-muted-foreground hover:text-foreground mb-3 flex items-center gap-1"><ChevronLeft className="w-4 h-4" /> Back to home</button>
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center"><Icon className="w-5 h-5 text-primary" /></div>
+            <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center"><Icon className="w-5 h-5 text-gold" /></div>
             <div>
               <h1 className="text-3xl font-bold tracking-tight">{content.title}</h1>
               <p className="text-xs text-muted-foreground">Last updated: August 2026</p>
@@ -226,12 +226,12 @@ function PromoGrid() {
           <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-gold/10 blur-2xl" />
           <div className="flex items-center gap-2 mb-3">
             <span className="pill bg-gold text-gold-foreground">{p.discountPct > 0 ? `${p.discountPct}% OFF` : `$${p.discountAmt} OFF`}</span>
-            <span className="pill bg-primary/10 text-primary">{p.type}</span>
+            <span className="pill bg-gold/10 text-gold">{p.type}</span>
           </div>
           <h3 className="text-xl font-bold">{p.title}</h3>
           <p className="mt-2 text-sm text-muted-foreground">{p.description}</p>
           <div className="mt-4 flex items-center justify-between">
-            <code className="px-3 py-1.5 rounded-lg bg-muted font-mono text-sm font-bold">{p.code}</code>
+            <code className="px-3 py-1.5 rounded-lg bg-surface font-mono text-sm font-bold">{p.code}</code>
             <Button size="sm" variant="outline" onClick={() => setView(p.type === "HOTEL" ? { name: "hotels" } : p.type === "CAR" ? { name: "cars" } : { name: "home" })}>Use code</Button>
           </div>
           <p className="text-[10px] text-muted-foreground mt-3">Valid until {new Date(p.validTo).toLocaleDateString()}</p>

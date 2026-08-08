@@ -217,7 +217,7 @@ export function CarsView() {
             <div className="sticky top-28 bg-card border border-border/60 rounded-2xl p-5">
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-semibold flex items-center gap-2"><SlidersHorizontal className="w-4 h-4" /> Filters</h3>
-                {activeFilterCount > 0 && <Badge className="bg-primary text-primary-foreground">{activeFilterCount}</Badge>}
+                {activeFilterCount > 0 && <Badge className="bg-gold text-gold-foreground">{activeFilterCount}</Badge>}
               </div>
               {FiltersContent}
             </div>
@@ -230,7 +230,7 @@ export function CarsView() {
                   <Button variant="outline">
                     <SlidersHorizontal className="w-4 h-4 mr-2" />
                     Filters
-                    {activeFilterCount > 0 && <Badge className="ml-2 bg-primary text-primary-foreground">{activeFilterCount}</Badge>}
+                    {activeFilterCount > 0 && <Badge className="ml-2 bg-gold text-gold-foreground">{activeFilterCount}</Badge>}
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className="w-full sm:w-[380px] overflow-y-auto">
@@ -253,7 +253,7 @@ export function CarsView() {
               </div>
             ) : cars.length === 0 ? (
               <div className="text-center py-20">
-                <div className="w-16 h-16 mx-auto rounded-full bg-muted flex items-center justify-center">
+                <div className="w-16 h-16 mx-auto rounded-full bg-surface flex items-center justify-center">
                   <MapPin className="w-8 h-8 text-muted-foreground" />
                 </div>
                 <h3 className="mt-4 text-lg font-semibold">No cars found</h3>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useAppStore } from "@/store/useAppStore";
 import { SearchWidget } from "@/components/site/SearchWidget";
+import { RecentlyViewed } from "@/components/site/RecentlyViewed";
 import { HotelCard, type HotelCardData } from "@/components/site/HotelCard";
 import { CarCard, type CarCardData } from "@/components/site/CarCard";
 import { DestinationCard, type DestinationCardData } from "@/components/site/DestinationCard";
@@ -11,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   ShieldCheck, CreditCard, Award, Headphones, Search, GitCompare, CalendarCheck, PartyPopper,
-  Star, Quote, TrendingUp, Sparkles, ArrowRight, CheckCircle2,
+  Star, Quote, TrendingUp, Sparkles, ArrowRight, CheckCircle2, Flame, Crown, Clock,
 } from "lucide-react";
 
 export function HomeView() {
@@ -113,6 +114,9 @@ export function HomeView() {
           </div>
         </div>
       </section>
+
+      {/* ============== RECENTLY VIEWED ============== */}
+      <RecentlyViewed />
 
       {/* ============== FEATURED HOTELS ============== */}
       <section className="section-pad">

@@ -1,94 +1,151 @@
-# Voyarion — Premium Hotel & Car Booking Marketplace
+# Voyarion — Production-Grade Upgrade Worklog
 
-## Build Summary
+## Major Upgrades (booking.com-style system)
 
-### What was built
-A production-grade Next.js 16 marketplace application combining hotel and car rental booking with three distinct user experiences:
-1. **Customer platform** — browse, search, filter, book hotels and cars
-2. **Owner portal** — manage vehicles, view bookings and earnings
-3. **Admin panel** — full inventory, user, booking, payment, and audit management
+### 1. Signup Popup (Conversion-Optimized)
+- **Component**: `src/components/site/SignupPopup.tsx`
+- Appears 5 seconds after page load for non-authenticated users
+- Offers $50 off first booking + member-only benefits
+- Email capture form → redirects to registration
+- Dismissed state stored in `localStorage` (24h cooldown) + `sessionStorage` (per-session)
+- Verified working via browser test
 
-### Architecture
-- **Frontend**: Next.js 16 (App Router) + TypeScript + Tailwind CSS 4 + shadcn/ui + Recharts + Zustand
-- **Backend**: Next.js API routes (16 endpoints) with Prisma ORM + SQLite
-- **Design**: Custom premium luxury travel palette (deep teal + warm gold + ivory)
-- **State**: Zustand store with persist middleware for client-side view routing, auth, favorites, search
-- **Auth**: Cookie-based sessions with hashed passwords, role-based access control
+### 2. Social Proof Toast (Real-Time Trust Signals)
+- **Component**: `src/components/site/SocialProofToast.tsx`
+- Shows "Sarah from London just booked Aegean Pearl Resort" notifications
+- First appears 12s after page load, repeats every 25s
+- Auto-hides after 6s
+- Dismissible
+- Hidden on auth/checkout/admin pages
 
-### Database (Prisma)
-20 entities: User, Session, UserProfile, Owner, Hotel, HotelRoom, Car, CarAvailability, Destination, Booking, Payment, Review, Favorite, Promotion, Notification, AuditLog — fully indexed with relations and constraints.
+### 3. Global Toast Container (Real-Time Notifications)
+- **Component**: `src/components/site/ToastContainer.tsx`
+- Integrated with Zustand store
+- 4 toast types: success, error, info, warning
+- Auto-dismiss after 5s
+- Stacked top-right
 
-### API Routes
-- Hotels: GET /api/hotels (with filters), GET /api/hotels/[id]
-- Cars: GET /api/cars (with filters), GET /api/cars/[id]
-- Destinations: GET /api/destinations
-- Bookings: GET/POST /api/bookings, GET/PATCH /api/bookings/[id], POST /api/bookings/[id]/cancel
-- Reviews: POST /api/reviews
-- Auth: login, register, logout, me (cookie session)
-- Favorites: GET/POST /api/favorites
-- Owner: vehicles (GET/POST), stats
-- Admin: stats, users, bookings, audit
-- Notifications, Promotions
+### 4. Recently Viewed Listings
+- **Component**: `src/components/site/RecentlyViewed.tsx`
+- Tracks when users view hotel/car detail pages
+- Stored in Zustand (persisted to localStorage)
+- Shows horizontal scroll of up to 12 recent items on homepage
+- Clear button to reset history
 
-### Pages Built (single-page app with client-side view routing)
-- Home (hero, search widget, featured hotels/cars, destinations, offers, why-choose-us, how-it-works, testimonials, CTA, footer)
-- Hotels catalog (with sidebar filters: price, rating, property type, amenities, sorting)
-- Hotel detail (gallery, amenities, rooms selection, booking widget, reviews, policies, accordion)
-- Cars catalog (with sidebar filters: price, rating, type, transmission, fuel, seats, features)
-- Car detail (gallery, specs, description, features, owner, availability calendar, booking widget, reviews, policies)
-- Destinations (grid + destination detail with hotels/cars tabs)
-- Deals & Offers
-- About, Help (FAQ)
-- Auth (login/register/forgot with role selection)
-- Customer Dashboard (bookings, favorites, profile, notifications)
-- Checkout (3-step: details → payment → confirmation with Stripe-style form, promo codes)
-- Booking Confirmation (voucher, download, breakdown)
-- Owner Portal (dashboard with charts, vehicles, bookings, earnings, payouts, settings, add-vehicle dialog)
-- Admin Panel (dashboard with charts, users table, bookings table, inventory, payments, audit logs, settings)
-- Legal: Terms, Privacy, Cancellation
+### 5. Multi-Step Booking Wizard (booking.com-style)
+- **Component**: `src/components/views/CheckoutView.tsx` (rewritten)
+- 3 steps: Your details → Payment → Confirmation
+- Step 1: Customer info (name, email, phone, country, special requests, arrival time)
+- Step 2: Payment (card details, save card, accept cancellation policy)
+- Step 3: Processing animation with step-by-step status
+- Progress indicator at top (1 → 2 → 3)
+- Real-time price calculation with promo code application
+- Trust signals (SSL, PCI, free cancellation)
 
-### Booking Engine
-- Server-side pricing (centralized in `src/lib/pricing.ts`)
-- Transactional booking creation (Prisma `$transaction`)
-- Double-booking prevention (overlapping date checks + availability blocking)
-- Stripe-style payment flow (test mode — no real charges)
-- Payment webhook simulation (PATCH /api/bookings/[id] with action="confirm_payment")
-- Booking status transitions (PENDING → CONFIRMED → COMPLETED or CANCELLED)
-- Refund handling on cancellation
-- Audit logging
+### 6. Booking Tracking Page (Real-Time Status)
+- **Component**: `src/components/views/BookingTrackingView.tsx`
+- Visual timeline: PENDING → CONFIRMED → ACTIVE → COMPLETED
+- Animated current-step indicator (pulse-gold)
+- Listing summary with all booking details
+- Payment breakdown
+- Contact support (phone/email)
+- Cancel booking action
+- "Write a review" CTA for completed bookings
+- Accessed from: customer dashboard → Track button, confirmation page → Track booking button
 
-### Demo Accounts
-- Admin: admin@voyarion.com / admin123
-- Customer: guest@voyarion.com / guest123
-- Owner: owner@voyarion.com / owner123
+### 7. Enhanced Auth (booking.com-style)
+- **Component**: `src/components/views/AuthView.tsx` (rewritten)
+- Google + Apple social login buttons (UI)
+- Password strength meter (5 levels: Very weak → Very strong)
+- Show/hide password toggle
+- Confirm password match indicator (✓/✗)
+- Remember me checkbox (login)
+- Terms of Service + Privacy Policy acceptance (register)
+- Marketing opt-in (register)
+- Customer/Owner role selector
+- Demo account quick-fill buttons
 
-### Demo Data
-- 6 destinations (Santorini, Bali, Kyoto, Paris, Maldives, Tuscany)
-- 8 hotels with 24 rooms total (3 room types per hotel)
-- 8 cars from 3 verified owners (Mercedes, Porsche, Range Rover, Tesla, BMW, Audi, Ferrari, VW)
-- 3 promotions (SUMMER25, WEEKEND15, WELCOME50)
-- 6 reviews, 4 audit logs, 5 notifications, 3 sample bookings
+### 8. Wishlist with Collections
+- **Component**: `src/components/views/WishlistView.tsx`
+- Default collections: Saved, Dream Stays, Quick Getaways
+- Create custom collections
+- Move favorites between collections
+- Filter by collection
+- Item count per collection
+- Accessed from: navbar heart icon, user menu
 
-### Design System
-- Premium luxury travel palette: deep teal (oklch 0.36 0.07 195) + warm gold (oklch 0.78 0.13 80) + ivory background
-- Custom utility classes: glass-card, premium-card, btn-premium, gold-underline, shadow-premium
-- Animations: fade-in-up, scale-in, shimmer skeletons
-- Fully responsive (mobile-first with sticky footer, mobile nav sheet, mobile filter drawers)
-- Premium typography: Plus Jakarta Sans (display) + Inter (body)
+### 9. Customer Dashboard Enhancements
+- Loyalty points display (2,450 pts)
+- Gold Member badge
+- Member since badge
+- Quick stats: Upcoming, Active, Completed, Saved
+- Track button on every booking card → booking tracking page
+- View button → booking detail modal
+- Cancel button (for pending/confirmed bookings)
 
-### Verification
-All major flows tested via Agent Browser:
-✓ Homepage loads with all sections
-✓ Hotels catalog with filters
-✓ Hotel detail with booking widget
-✓ Cars catalog with filters
-✓ Car detail with availability calendar
-✓ Auth flow (login as customer, owner, admin)
-✓ Customer dashboard with bookings
-✓ Owner portal dashboard with charts
-✓ Owner add vehicle dialog
-✓ Admin panel dashboard, users table, audit logs
-✓ Full booking + payment + confirmation flow (Ferrari Roma booking)
-✓ Destinations, Deals, About, Help pages
+### 10. Owner Portal Enhancements
+- Accept/Decline buttons for PENDING bookings
+- Owner payout calculation shown
+- Booking status badges with color coding
+- Avatar with gold ring
+- Verified owner badge
+
+### 11. Admin Panel Polish
+- All primary colors → gold theme
+- Status badges with proper color coding
+- Audit logs with metadata display
+- User management with suspend/reactivate
+- Booking management with multi-filter
+- Charts using gold/bronze palette
+
+## State Management Enhancements
+
+### Zustand Store (`src/store/useAppStore.ts`)
+New fields added:
+- `recentlyViewed: RecentlyViewedItem[]` + `addRecentlyViewed`, `clearRecentlyViewed`
+- `priceAlerts: PriceAlert[]` + `addPriceAlert`, `removePriceAlert`
+- `wishlistCollections: string[]` + `createWishlistCollection`, `moveFavoriteToCollection`
+- `searchHistory: SearchHistoryItem[]` + `addSearchHistory`, `clearSearchHistory`
+- `toasts` + `addToast`, `removeToast`
+- `signupPopupShown`, `signupPopupDismissedAt` + setters
+
+New view types:
+- `booking-tracking` (bookingId)
+- `wishlist`
+
+## Files Created (7 new)
+- `src/components/site/SignupPopup.tsx`
+- `src/components/site/SocialProofToast.tsx`
+- `src/components/site/ToastContainer.tsx`
+- `src/components/site/RecentlyViewed.tsx`
+- `src/components/views/BookingTrackingView.tsx`
+- `src/components/views/WishlistView.tsx`
+
+## Files Updated (12)
+- `src/store/useAppStore.ts` — Added recently viewed, price alerts, wishlist collections, toasts, signup popup state
+- `src/app/page.tsx` — Added SignupPopup, ToastContainer, SocialProofToast, new views
+- `src/components/views/AuthView.tsx` — Full rewrite with password strength, social login, terms acceptance
+- `src/components/views/CheckoutView.tsx` — Full rewrite as 3-step wizard
+- `src/components/views/ConfirmationView.tsx` — Added Track booking button
+- `src/components/views/CustomerDashboardView.tsx` — Added quick stats, loyalty info, Track buttons
+- `src/components/views/OwnerPortalView.tsx` — Added Accept/Decline for pending bookings
+- `src/components/views/HotelDetailView.tsx` — Added recently viewed tracking, btn-gold
+- `src/components/views/CarDetailView.tsx` — Added recently viewed tracking, btn-gold
+- `src/components/views/HomeView.tsx` — Added RecentlyViewed section
+- `src/components/site/Navbar.tsx` — Wishlist link instead of favorites tab
+- All views — Replaced `bg-primary`, `text-primary`, `bg-muted` with gold/surface equivalents
+
+## Verification (Agent Browser)
+✓ Signup popup appears after 5s for non-authenticated users
+✓ Social proof toast appears after 12s and repeats
+✓ Recently viewed section appears on home after viewing listings
+✓ Multi-step checkout: Step 1 (details) → Step 2 (payment) → Step 3 (processing) → Confirmation
+✓ Booking tracking page with status timeline
+✓ Wishlist with collections and saved items
+✓ Enhanced auth with password strength meter, social login UI, terms checkbox
+✓ Customer dashboard with loyalty info and Track buttons
+✓ Owner portal with Accept/Decline for pending bookings
+✓ Admin panel renders correctly
 ✓ All API endpoints return 200
 ✓ Lint passes cleanly
+✓ No console errors

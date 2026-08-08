@@ -4,6 +4,9 @@ import { useEffect } from "react";
 import { useAppStore } from "@/store/useAppStore";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
+import { SignupPopup } from "@/components/site/SignupPopup";
+import { ToastContainer } from "@/components/site/ToastContainer";
+import { SocialProofToast } from "@/components/site/SocialProofToast";
 import { HomeView } from "@/components/views/HomeView";
 import { HotelsView } from "@/components/views/HotelsView";
 import { HotelDetailView } from "@/components/views/HotelDetailView";
@@ -16,6 +19,8 @@ import { OwnerPortalView } from "@/components/views/OwnerPortalView";
 import { AdminPanelView } from "@/components/views/AdminPanelView";
 import { CheckoutView } from "@/components/views/CheckoutView";
 import { ConfirmationView } from "@/components/views/ConfirmationView";
+import { BookingTrackingView } from "@/components/views/BookingTrackingView";
+import { WishlistView } from "@/components/views/WishlistView";
 import { SimplePage } from "@/components/views/SimplePage";
 
 export default function Home() {
@@ -33,7 +38,6 @@ export default function Home() {
   }, []);
 
   const isAuthView = view.name === "auth";
-  const isAdminView = view.name === "admin-panel";
   const isCheckoutFlow = view.name === "checkout" || view.name === "confirmation";
 
   return (
@@ -56,11 +60,16 @@ export default function Home() {
         {view.name === "admin-panel" && <AdminPanelView tab={view.tab} />}
         {view.name === "checkout" && <CheckoutView bookingType={view.bookingType} refId={view.refId} />}
         {view.name === "confirmation" && <ConfirmationView bookingId={view.bookingId} />}
+        {view.name === "booking-tracking" && <BookingTrackingView bookingId={view.bookingId} />}
+        {view.name === "wishlist" && <WishlistView />}
         {view.name === "terms" && <SimplePage kind="terms" />}
         {view.name === "privacy" && <SimplePage kind="privacy" />}
         {view.name === "cancellation" && <SimplePage kind="cancellation" />}
       </main>
       {!isAuthView && !isCheckoutFlow && <Footer />}
+      <SignupPopup />
+      <ToastContainer />
+      <SocialProofToast />
     </div>
   );
 }
