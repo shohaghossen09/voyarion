@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppStore } from "@/store/useAppStore";
-import { Building2, Car as CarIcon, Handshake, LifeBuoy, FileText, ShieldCheck, Mail, Phone, MapPin, Facebook, Instagram, Twitter, Linkedin, Send } from "lucide-react";
+import { Mail, Phone, MapPin, Facebook, Instagram, Twitter, Linkedin, Send, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
@@ -50,16 +50,16 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-foreground text-background mt-auto">
+    <footer className="mt-auto bg-surface border-t border-border-subtle">
       {/* Newsletter */}
-      <div className="border-b border-background/10">
+      <div className="border-b border-border-subtle">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
           <div className="grid lg:grid-cols-2 gap-8 items-center">
             <div>
-              <h3 className="text-2xl lg:text-3xl font-bold tracking-tight">
+              <h3 className="text-2xl lg:text-3xl font-bold tracking-tight text-foreground" style={{ fontFamily: "var(--font-playfair), serif" }}>
                 Travel smarter, stay richer.
               </h3>
-              <p className="mt-3 text-background/70 text-sm lg:text-base max-w-md">
+              <p className="mt-3 text-muted-foreground text-sm lg:text-base max-w-md">
                 Join 250,000+ travelers receiving curated deals, hidden gems, and members-only offers every week.
               </p>
             </div>
@@ -69,9 +69,9 @@ export function Footer() {
                 placeholder="Your email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-background/10 border-background/20 text-background placeholder:text-background/50 h-12 premium-input"
+                className="premium-input h-12 flex-1"
               />
-              <Button type="submit" className="btn-premium bg-gold hover:bg-gold/90 text-gold-foreground h-12 px-6 whitespace-nowrap">
+              <Button type="submit" className="btn-gold h-12 px-6 whitespace-nowrap">
                 <Send className="w-4 h-4 mr-2" />
                 Subscribe
               </Button>
@@ -89,28 +89,28 @@ export function Footer() {
               onClick={() => setView({ name: "home" })}
               className="flex items-center gap-2.5 group"
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-teal-deep flex items-center justify-center">
-                <svg viewBox="0 0 24 24" className="w-5 h-5 text-primary-foreground" fill="none" stroke="currentColor" strokeWidth="2.2">
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-gold-light to-gold-dark flex items-center justify-center shadow-gold-glow">
+                <svg viewBox="0 0 24 24" className="w-5 h-5 text-background" fill="none" stroke="currentColor" strokeWidth="2.2">
                   <path d="M12 2L4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4z"/>
-                  <path d="M9 12l2 2 4-4" stroke="var(--gold)" strokeWidth="2.5"/>
+                  <path d="M9 12l2 2 4-4" stroke="#0A0A0A" strokeWidth="2.5"/>
                 </svg>
               </div>
               <div className="flex flex-col">
-                <span className="text-lg font-bold">Voyarion</span>
-                <span className="text-[10px] uppercase tracking-[0.2em] text-background/50">Stay & Ride</span>
+                <span className="text-lg font-bold text-foreground" style={{ fontFamily: "var(--font-playfair), serif" }}>Voyarion</span>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-gold">Stay & Ride</span>
               </div>
             </button>
-            <p className="mt-4 text-sm text-background/60 max-w-xs">
+            <p className="mt-4 text-sm text-muted-foreground max-w-xs leading-relaxed">
               A premium marketplace for hotels and rental cars. Discover, compare, and book trusted stays and rides — worldwide.
             </p>
-            <div className="mt-5 space-y-2 text-sm text-background/70">
+            <div className="mt-5 space-y-2 text-sm text-muted-foreground">
               <div className="flex items-center gap-2"><Mail className="w-4 h-4 text-gold" /> hello@voyarion.com</div>
               <div className="flex items-center gap-2"><Phone className="w-4 h-4 text-gold" /> +1 (415) 555-0100</div>
               <div className="flex items-center gap-2"><MapPin className="w-4 h-4 text-gold" /> San Francisco · London · Singapore</div>
             </div>
             <div className="mt-6 flex items-center gap-3">
               {[Facebook, Instagram, Twitter, Linkedin].map((Icon, i) => (
-                <button key={i} className="w-9 h-9 rounded-full border border-background/20 flex items-center justify-center hover:bg-background/10 transition-colors" aria-label="Social">
+                <button key={i} className="w-9 h-9 rounded-full border border-border-subtle flex items-center justify-center hover:border-gold hover:text-gold transition-colors text-muted-foreground" aria-label="Social">
                   <Icon className="w-4 h-4" />
                 </button>
               ))}
@@ -120,13 +120,13 @@ export function Footer() {
           {/* Link columns */}
           {cols.map((col) => (
             <div key={col.title}>
-              <h4 className="text-sm font-semibold uppercase tracking-wider text-background/90 mb-4">{col.title}</h4>
+              <h4 className="text-sm font-semibold uppercase tracking-wider text-foreground mb-4" style={{ fontFamily: "var(--font-playfair), serif" }}>{col.title}</h4>
               <ul className="space-y-2.5">
                 {col.links.map((link) => (
                   <li key={link.label}>
                     <button
                       onClick={() => link.view && setView(link.view)}
-                      className="text-sm text-background/60 hover:text-gold transition-colors text-left"
+                      className="text-sm text-muted-foreground hover:text-gold transition-colors text-left link-underline"
                     >
                       {link.label}
                     </button>
@@ -139,18 +139,18 @@ export function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-background/10">
+      <div className="border-t border-border-subtle">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-background/50">
+          <p className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} Voyarion Inc. All rights reserved.
           </p>
           <div className="flex items-center gap-4 flex-wrap justify-center">
             {["Visa", "Mastercard", "Amex", "Stripe", "Apple Pay"].map((p) => (
-              <span key={p} className="text-[11px] font-semibold uppercase tracking-wider text-background/40 px-2 py-1 rounded border border-background/15">
+              <span key={p} className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-2 py-1 rounded border border-border-subtle">
                 {p}
               </span>
             ))}
-            <span className="flex items-center gap-1.5 text-[11px] text-background/60">
+            <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
               <ShieldCheck className="w-3.5 h-3.5 text-gold" /> SSL Secured
             </span>
           </div>

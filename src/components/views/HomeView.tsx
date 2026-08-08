@@ -50,7 +50,7 @@ export function HomeView() {
       <section className="relative min-h-[680px] lg:min-h-[760px] flex items-center">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1920&q=80"
+            src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1920&q=80"
             alt="Premium travel destinations"
             className="w-full h-full object-cover"
           />
@@ -59,14 +59,14 @@ export function HomeView() {
 
         <div className="relative mx-auto max-w-[1400px] w-full px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-card-light text-white text-xs font-medium mb-6">
               <Sparkles className="w-3.5 h-3.5 text-gold" />
               <span>250,000+ travelers · 1,800+ verified partners</span>
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight text-white leading-[1.05]">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight text-white leading-[1.05]" style={{ fontFamily: "var(--font-playfair), serif" }}>
               Find Your Perfect
-              <span className="block mt-1">
-                <span className="text-gradient-gold">Stay & Ride</span>
+              <span className="block mt-1 gold-shimmer-text">
+                Stay & Ride
               </span>
             </h1>
             <p className="mt-6 text-base lg:text-lg text-white/80 max-w-2xl leading-relaxed">
@@ -96,7 +96,7 @@ export function HomeView() {
       </section>
 
       {/* ============== STATS STRIP ============== */}
-      <section className="border-y border-border/60 bg-card">
+      <section className="border-y border-border-subtle bg-surface">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -106,7 +106,7 @@ export function HomeView() {
               { stat: "$2.4B+", label: "Bookings processed" },
             ].map((s) => (
               <div key={s.label} className="text-center">
-                <p className="text-3xl lg:text-4xl font-bold text-gradient-teal">{s.stat}</p>
+                <p className="text-3xl lg:text-4xl font-bold text-gradient-gold" style={{ fontFamily: "var(--font-playfair), serif" }}>{s.stat}</p>
                 <p className="text-xs uppercase tracking-wider text-muted-foreground mt-1">{s.label}</p>
               </div>
             ))}
@@ -126,7 +126,7 @@ export function HomeView() {
           />
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1,2,3,4,5,6].map(i => <Skeleton key={i} className="aspect-[4/3] rounded-2xl" />)}
+              {[1,2,3,4,5,6].map(i => <Skeleton key={i} className="aspect-[4/3] rounded-2xl bg-surface" />)}
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -137,7 +137,7 @@ export function HomeView() {
       </section>
 
       {/* ============== FEATURED CARS ============== */}
-      <section className="section-pad bg-muted/30 border-y border-border/60">
+      <section className="section-pad bg-surface border-y border-border-subtle">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
           <SectionHeader
             eyebrow="Drive in Style"
@@ -148,7 +148,7 @@ export function HomeView() {
           />
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1,2,3,4,5,6].map(i => <Skeleton key={i} className="aspect-[16/10] rounded-2xl" />)}
+              {[1,2,3,4,5,6].map(i => <Skeleton key={i} className="aspect-[16/10] rounded-2xl bg-card" />)}
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -170,7 +170,7 @@ export function HomeView() {
           />
           {loading ? (
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1,2,3,4,5,6].map(i => <Skeleton key={i} className="aspect-[3/4] rounded-2xl" />)}
+              {[1,2,3,4,5,6].map(i => <Skeleton key={i} className="aspect-[3/4] rounded-2xl bg-surface" />)}
             </div>
           ) : (
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
@@ -184,29 +184,29 @@ export function HomeView() {
 
       {/* ============== OFFERS ============== */}
       {promotions.length > 0 && (
-        <section className="section-pad bg-foreground text-background">
+        <section className="section-pad bg-surface border-y border-border-subtle">
           <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-10">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/10 border border-background/20 text-xs font-medium mb-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gold/10 border border-gold/20 text-xs font-medium mb-4">
                   <TrendingUp className="w-3.5 h-3.5 text-gold" />
-                  <span>Limited time</span>
+                  <span className="text-gold">Limited time</span>
                 </div>
-                <h2 className="text-3xl lg:text-5xl font-bold tracking-tight">Special Offers</h2>
-                <p className="mt-3 text-background/70 max-w-xl">
+                <h2 className="text-3xl lg:text-5xl font-bold tracking-tight text-foreground" style={{ fontFamily: "var(--font-playfair), serif" }}>Special Offers</h2>
+                <p className="mt-3 text-muted-foreground max-w-xl">
                   Save up to 25% on featured properties and 15% on weekend car rentals. Members get more.
                 </p>
               </div>
             </div>
             <div className="grid md:grid-cols-3 gap-5">
               {promotions.map((p) => (
-                <div key={p.id} className="relative overflow-hidden rounded-2xl bg-background/5 border border-background/15 hover:border-gold/40 transition-colors p-6 lg:p-8 group">
+                <div key={p.id} className="relative overflow-hidden rounded-2xl bg-card border border-border-subtle hover:border-gold/40 transition-colors p-6 lg:p-8 group premium-card">
                   <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-gold/10 blur-2xl group-hover:bg-gold/20 transition-colors" />
-                  <Badge className="bg-gold text-gold-foreground border-0">{p.discountPct > 0 ? `${p.discountPct}% OFF` : `$${p.discountAmt} OFF`}</Badge>
-                  <h3 className="mt-4 text-xl font-bold">{p.title}</h3>
-                  <p className="mt-2 text-sm text-background/70 line-clamp-2">{p.description}</p>
+                  <Badge className="bg-gradient-to-r from-gold-light to-gold-dark text-background border-0">{p.discountPct > 0 ? `${p.discountPct}% OFF` : `$${p.discountAmt} OFF`}</Badge>
+                  <h3 className="mt-4 text-xl font-bold text-foreground" style={{ fontFamily: "var(--font-playfair), serif" }}>{p.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{p.description}</p>
                   <div className="mt-5 flex items-center justify-between">
-                    <code className="px-3 py-1.5 rounded-lg bg-background/10 text-gold font-mono text-sm font-bold">{p.code}</code>
+                    <code className="px-3 py-1.5 rounded-lg bg-background border border-border-subtle text-gold font-mono text-sm font-bold">{p.code}</code>
                     <Button variant="ghost" size="sm" className="text-gold hover:text-gold hover:bg-gold/10" onClick={() => setView(p.type === "HOTEL" ? { name: "hotels" } : p.type === "CAR" ? { name: "cars" } : { name: "deals" })}>
                       Apply <ArrowRight className="w-3.5 h-3.5 ml-1" />
                     </Button>
@@ -236,11 +236,11 @@ export function HomeView() {
               { icon: Headphones, title: "24/7 Support", desc: "Real humans, available around the clock. Multilingual support via chat, email, and phone — wherever you are." },
               { icon: Star, title: "Reviewed by Travelers", desc: "Genuine reviews from verified guests. Make informed decisions with detailed ratings on every property." },
             ].map((f) => (
-              <div key={f.title} className="group p-6 rounded-2xl border border-border/60 bg-card hover:border-primary/30 hover:shadow-premium transition-all">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <f.icon className="w-5 h-5 text-primary" />
+              <div key={f.title} className="group p-6 rounded-2xl border border-border-subtle bg-card hover:border-gold/30 hover:shadow-premium transition-all">
+                <div className="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <f.icon className="w-5 h-5 text-gold" />
                 </div>
-                <h3 className="font-semibold text-lg">{f.title}</h3>
+                <h3 className="font-semibold text-lg text-foreground" style={{ fontFamily: "var(--font-playfair), serif" }}>{f.title}</h3>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
               </div>
             ))}
@@ -249,7 +249,7 @@ export function HomeView() {
       </section>
 
       {/* ============== HOW IT WORKS ============== */}
-      <section className="section-pad bg-muted/30 border-y border-border/60">
+      <section className="section-pad bg-surface border-y border-border-subtle">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
           <SectionHeader
             eyebrow="Simple & Fast"
@@ -266,14 +266,14 @@ export function HomeView() {
             ].map((s, i) => (
               <div key={s.step} className="relative">
                 {i < 3 && (
-                  <div className="hidden lg:block absolute top-8 left-[60%] w-full h-px border-t-2 border-dashed border-border" />
+                  <div className="hidden lg:block absolute top-8 left-[60%] w-full h-px border-t-2 border-dashed border-border-subtle" />
                 )}
-                <div className="relative bg-card border border-border/60 rounded-2xl p-6 text-center">
-                  <div className="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-primary to-teal-deep flex items-center justify-center text-primary-foreground shadow-lg shadow-primary/20">
+                <div className="relative bg-card border border-border-subtle rounded-2xl p-6 text-center">
+                  <div className="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-gold-light to-gold-dark flex items-center justify-center text-background shadow-gold-glow">
                     <s.icon className="w-6 h-6" />
                   </div>
                   <div className="mt-3 text-[10px] uppercase tracking-[0.2em] text-gold font-bold">Step {s.step}</div>
-                  <h3 className="mt-1 font-semibold text-lg">{s.title}</h3>
+                  <h3 className="mt-1 font-semibold text-lg text-foreground" style={{ fontFamily: "var(--font-playfair), serif" }}>{s.title}</h3>
                   <p className="mt-2 text-sm text-muted-foreground">{s.desc}</p>
                 </div>
               </div>
@@ -297,16 +297,16 @@ export function HomeView() {
               { name: "Sophia Lindqvist", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80", location: "Stockholm, Sweden", text: "Voyarion is my go-to for travel. The verified partner badge gives me peace of mind, and the prices are consistently better than other platforms.", rating: 5 },
               { name: "Amelia Tanaka", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80", location: "Tokyo, Japan", text: "Rented a Tesla Model S for a weekend in LA. The owner was incredibly responsive and the car was immaculate. Will definitely use Voyarion again.", rating: 5 },
             ].map((r) => (
-              <div key={r.name} className="p-6 rounded-2xl border border-border/60 bg-card hover:shadow-premium transition-shadow">
-                <Quote className="w-8 h-8 text-gold/30" />
+              <div key={r.name} className="p-6 rounded-2xl border border-border-subtle bg-card hover:shadow-premium transition-shadow">
+                <Quote className="w-8 h-8 text-gold/40" />
                 <div className="flex items-center gap-0.5 mt-3">
                   {Array.from({ length: r.rating }).map((_, i) => <Star key={i} className="w-4 h-4 fill-gold text-gold" />)}
                 </div>
-                <p className="mt-4 text-sm leading-relaxed text-foreground/80">"{r.text}"</p>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">"{r.text}"</p>
                 <div className="mt-5 flex items-center gap-3">
-                  <img src={r.avatar} alt={r.name} className="w-10 h-10 rounded-full object-cover" />
+                  <img src={r.avatar} alt={r.name} className="w-10 h-10 rounded-full object-cover ring-2 ring-gold/20" />
                   <div>
-                    <p className="text-sm font-semibold">{r.name}</p>
+                    <p className="text-sm font-semibold text-foreground" style={{ fontFamily: "var(--font-playfair), serif" }}>{r.name}</p>
                     <p className="text-xs text-muted-foreground">{r.location}</p>
                   </div>
                 </div>
@@ -317,25 +317,31 @@ export function HomeView() {
       </section>
 
       {/* ============== CTA ============== */}
-      <section className="section-pad bg-gradient-to-br from-primary via-teal-deep to-primary">
-        <div className="mx-auto max-w-[1100px] px-4 sm:px-6 lg:px-8 text-center">
-          <Badge className="bg-white/10 text-white border-0 backdrop-blur">Get Started Today</Badge>
-          <h2 className="mt-4 text-3xl lg:text-5xl font-bold tracking-tight text-white">
+      <section className="relative section-pad overflow-hidden">
+        <div className="absolute inset-0">
+          <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920&q=80" alt="" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-br from-background via-background/90 to-background/70" />
+        </div>
+        <div className="relative mx-auto max-w-[1100px] px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-card-light text-white text-xs font-medium mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-gold" /> Get Started Today
+          </div>
+          <h2 className="text-3xl lg:text-5xl font-bold tracking-tight text-foreground" style={{ fontFamily: "var(--font-playfair), serif" }}>
             Ready to begin your next adventure?
           </h2>
-          <p className="mt-4 text-white/80 max-w-2xl mx-auto">
+          <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
             Join thousands of travelers who trust Voyarion for premium stays and rides. Sign up free and unlock member-only deals.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Button size="lg" className="btn-premium bg-gold hover:bg-gold/90 text-gold-foreground h-12 px-8" onClick={() => setView({ name: "auth", mode: "register" })}>
+            <Button size="lg" className="btn-gold h-12 px-8" onClick={() => setView({ name: "auth", mode: "register" })}>
               Create free account
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
-            <Button size="lg" variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white h-12 px-8" onClick={() => setView({ name: "hotels" })}>
+            <Button size="lg" variant="outline" className="btn-gold-outline h-12 px-8" onClick={() => setView({ name: "hotels" })}>
               Browse listings
             </Button>
           </div>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-white/70 text-sm">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-muted-foreground text-sm">
             {["No credit card required", "Free cancellation", "Instant confirmation"].map(t => (
               <span key={t} className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-gold" />{t}</span>
             ))}
@@ -356,11 +362,11 @@ function SectionHeader({
           <span className="text-xs uppercase tracking-[0.2em] text-gold font-bold">{eyebrow}</span>
           <span className="w-8 h-px bg-gold" />
         </div>
-        <h2 className="mt-2 text-3xl lg:text-5xl font-bold tracking-tight">{title}</h2>
+        <h2 className="mt-2 text-3xl lg:text-5xl font-bold tracking-tight text-foreground" style={{ fontFamily: "var(--font-playfair), serif" }}>{title}</h2>
         {description && <p className="mt-3 text-muted-foreground lg:text-lg max-w-2xl">{description}</p>}
       </div>
       {actionLabel && onAction && (
-        <Button variant="outline" onClick={onAction} className="hidden lg:flex">
+        <Button variant="outline" onClick={onAction} className="hidden lg:flex btn-gold-outline">
           {actionLabel}
           <ArrowRight className="w-4 h-4 ml-2" />
         </Button>

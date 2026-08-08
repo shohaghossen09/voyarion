@@ -82,20 +82,20 @@ export function AuthView({ mode: initialMode }: { mode: "login" | "register" | "
       {/* Left visual panel */}
       <div className="hidden lg:flex lg:w-1/2 relative">
         <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&q=80" alt="" className="absolute inset-0 w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-teal-deep/80 to-primary/70" />
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-background/80" />
         <div className="relative z-10 flex flex-col justify-between p-12 text-white">
           <button onClick={() => setView({ name: "home" })} className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center">
-              <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2.2">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-gold-light to-gold-dark flex items-center justify-center shadow-gold-glow">
+              <svg viewBox="0 0 24 24" className="w-5 h-5 text-background" fill="none" stroke="currentColor" strokeWidth="2.2">
                 <path d="M12 2L4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4z"/>
               </svg>
             </div>
-            <span className="text-xl font-bold">Voyarion</span>
+            <span className="text-xl font-bold" style={{ fontFamily: "var(--font-playfair), serif" }}>Voyarion</span>
           </button>
 
           <div>
             <Sparkles className="w-8 h-8 text-gold mb-4" />
-            <h2 className="text-4xl font-bold leading-tight">Your journey<br/>begins here.</h2>
+            <h2 className="text-4xl font-bold leading-tight" style={{ fontFamily: "var(--font-playfair), serif" }}>Your journey<br/>begins here.</h2>
             <p className="mt-4 text-white/80 max-w-md">
               Join 250,000+ travelers discovering premium hotels and rental cars from verified partners worldwide.
             </p>
@@ -106,7 +106,7 @@ export function AuthView({ mode: initialMode }: { mode: "login" | "register" | "
                 { stat: "4.9/5", label: "Rating" },
               ].map(s => (
                 <div key={s.label}>
-                  <p className="text-2xl font-bold text-gold">{s.stat}</p>
+                  <p className="text-2xl font-bold text-gradient-gold" style={{ fontFamily: "var(--font-playfair), serif" }}>{s.stat}</p>
                   <p className="text-xs text-white/70 uppercase tracking-wider">{s.label}</p>
                 </div>
               ))}
@@ -126,7 +126,7 @@ export function AuthView({ mode: initialMode }: { mode: "login" | "register" | "
             <ChevronLeft className="w-4 h-4" /> Back to home
           </button>
 
-          <h1 className="text-3xl font-bold tracking-tight">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground" style={{ fontFamily: "var(--font-playfair), serif" }}>
             {mode === "login" && "Welcome back"}
             {mode === "register" && "Create your account"}
             {mode === "forgot" && "Reset password"}
@@ -202,11 +202,11 @@ export function AuthView({ mode: initialMode }: { mode: "login" | "register" | "
 
             {mode === "login" && (
               <div className="flex justify-end">
-                <button type="button" onClick={() => setMode("forgot")} className="text-xs text-primary hover:underline">Forgot password?</button>
+                <button type="button" onClick={() => setMode("forgot")} className="text-xs text-gold hover:underline">Forgot password?</button>
               </div>
             )}
 
-            <Button type="submit" disabled={loading} className="btn-premium w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground">
+            <Button type="submit" disabled={loading} className="btn-gold w-full h-11">
               {loading ? "Please wait..." : (
                 <>
                   {mode === "login" && "Sign in"}
@@ -235,9 +235,9 @@ export function AuthView({ mode: initialMode }: { mode: "login" | "register" | "
           )}
 
           <p className="mt-6 text-center text-sm text-muted-foreground">
-            {mode === "login" && <>Don't have an account? <button onClick={() => setMode("register")} className="text-primary font-semibold hover:underline">Sign up</button></>}
-            {mode === "register" && <>Already have an account? <button onClick={() => setMode("login")} className="text-primary font-semibold hover:underline">Sign in</button></>}
-            {mode === "forgot" && <>Remember your password? <button onClick={() => setMode("login")} className="text-primary font-semibold hover:underline">Sign in</button></>}
+            {mode === "login" && <>Don't have an account? <button onClick={() => setMode("register")} className="text-gold font-semibold hover:underline">Sign up</button></>}
+            {mode === "register" && <>Already have an account? <button onClick={() => setMode("login")} className="text-gold font-semibold hover:underline">Sign in</button></>}
+            {mode === "forgot" && <>Remember your password? <button onClick={() => setMode("login")} className="text-gold font-semibold hover:underline">Sign in</button></>}
           </p>
         </div>
       </div>

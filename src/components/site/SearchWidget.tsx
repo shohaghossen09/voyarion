@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useAppStore } from "@/store/useAppStore";
-import { Search, MapPin, Calendar, Users, Clock, ArrowRight, Building2, Car as CarIcon } from "lucide-react";
+import { Search, MapPin, Calendar, Users, Clock, Building2, Car as CarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -22,7 +22,7 @@ export function SearchWidget({ variant = "hero" }: SearchWidgetProps) {
 
   return (
     <div className={cn(
-      "rounded-2xl bg-card/95 backdrop-blur-xl border border-border/60 shadow-premium-lg p-2",
+      "glass-card rounded-2xl p-2",
       variant === "hero" && "max-w-5xl"
     )}>
       {/* Tabs */}
@@ -35,10 +35,10 @@ export function SearchWidget({ variant = "hero" }: SearchWidgetProps) {
             key={t.key}
             onClick={() => { setTab(t.key as any); setSearch({ type: t.key as any }); }}
             className={cn(
-              "flex items-center gap-2 px-4 lg:px-6 py-2.5 rounded-xl text-sm font-semibold transition-all",
+              "flex items-center gap-2 px-4 lg:px-6 py-2.5 rounded-lg text-sm font-semibold transition-all",
               tab === t.key
-                ? "bg-primary text-primary-foreground shadow-md"
-                : "text-foreground/70 hover:bg-muted/60"
+                ? "bg-gradient-to-r from-gold-light to-gold-dark text-background shadow-gold-glow"
+                : "text-white/70 hover:bg-white/[0.06]"
             )}
           >
             <t.icon className="w-4 h-4" />
@@ -57,7 +57,7 @@ export function SearchWidget({ variant = "hero" }: SearchWidgetProps) {
                 placeholder="Where to?"
                 value={search.destination}
                 onChange={(e) => setSearch({ destination: e.target.value })}
-                className="w-full bg-transparent outline-none text-sm font-medium placeholder:text-muted-foreground"
+                className="w-full bg-transparent outline-none text-sm font-medium placeholder:text-muted-deep text-foreground"
               />
             </FieldGroup>
             <FieldGroup className="lg:col-span-2" icon={Calendar} label="Check-in">
@@ -65,7 +65,7 @@ export function SearchWidget({ variant = "hero" }: SearchWidgetProps) {
                 type="date"
                 value={search.checkIn}
                 onChange={(e) => setSearch({ checkIn: e.target.value })}
-                className="w-full bg-transparent outline-none text-sm font-medium"
+                className="w-full bg-transparent outline-none text-sm font-medium text-foreground"
               />
             </FieldGroup>
             <FieldGroup className="lg:col-span-2" icon={Calendar} label="Check-out">
@@ -73,31 +73,31 @@ export function SearchWidget({ variant = "hero" }: SearchWidgetProps) {
                 type="date"
                 value={search.checkOut}
                 onChange={(e) => setSearch({ checkOut: e.target.value })}
-                className="w-full bg-transparent outline-none text-sm font-medium"
+                className="w-full bg-transparent outline-none text-sm font-medium text-foreground"
               />
             </FieldGroup>
             <FieldGroup className="lg:col-span-2" icon={Users} label="Guests">
               <select
                 value={search.guests}
                 onChange={(e) => setSearch({ guests: parseInt(e.target.value) })}
-                className="w-full bg-transparent outline-none text-sm font-medium"
+                className="w-full bg-transparent outline-none text-sm font-medium text-foreground"
               >
-                {[1,2,3,4,5,6].map(n => <option key={n} value={n}>{n} {n===1 ? "Guest" : "Guests"}</option>)}
+                {[1,2,3,4,5,6].map(n => <option key={n} value={n} className="bg-surface-elevated">{n} {n===1 ? "Guest" : "Guests"}</option>)}
               </select>
             </FieldGroup>
             <FieldGroup className="lg:col-span-2" icon={Users} label="Rooms">
               <select
                 value={search.rooms}
                 onChange={(e) => setSearch({ rooms: parseInt(e.target.value) })}
-                className="w-full bg-transparent outline-none text-sm font-medium"
+                className="w-full bg-transparent outline-none text-sm font-medium text-foreground"
               >
-                {[1,2,3,4].map(n => <option key={n} value={n}>{n} {n===1 ? "Room" : "Rooms"}</option>)}
+                {[1,2,3,4].map(n => <option key={n} value={n} className="bg-surface-elevated">{n} {n===1 ? "Room" : "Rooms"}</option>)}
               </select>
             </FieldGroup>
             <div className="lg:col-span-1 flex">
               <Button
                 onClick={handleSearch}
-                className="btn-premium w-full h-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl min-h-[56px]"
+                className="btn-gold w-full h-full rounded-lg min-h-[56px]"
               >
                 <Search className="w-4 h-4 lg:mr-1" />
                 <span className="hidden lg:inline">Search</span>
@@ -112,7 +112,7 @@ export function SearchWidget({ variant = "hero" }: SearchWidgetProps) {
                 placeholder="Pickup location"
                 value={search.pickupLocation}
                 onChange={(e) => setSearch({ pickupLocation: e.target.value })}
-                className="w-full bg-transparent outline-none text-sm font-medium placeholder:text-muted-foreground"
+                className="w-full bg-transparent outline-none text-sm font-medium placeholder:text-muted-deep text-foreground"
               />
             </FieldGroup>
             <FieldGroup className="lg:col-span-2" icon={Calendar} label="Pickup date">
@@ -120,7 +120,7 @@ export function SearchWidget({ variant = "hero" }: SearchWidgetProps) {
                 type="date"
                 value={search.pickupDate}
                 onChange={(e) => setSearch({ pickupDate: e.target.value })}
-                className="w-full bg-transparent outline-none text-sm font-medium"
+                className="w-full bg-transparent outline-none text-sm font-medium text-foreground"
               />
             </FieldGroup>
             <FieldGroup className="lg:col-span-1" icon={Clock} label="Time">
@@ -128,7 +128,7 @@ export function SearchWidget({ variant = "hero" }: SearchWidgetProps) {
                 type="time"
                 value={search.pickupTime}
                 onChange={(e) => setSearch({ pickupTime: e.target.value })}
-                className="w-full bg-transparent outline-none text-sm font-medium"
+                className="w-full bg-transparent outline-none text-sm font-medium text-foreground"
               />
             </FieldGroup>
             <FieldGroup className="lg:col-span-2" icon={MapPin} label="Return">
@@ -137,7 +137,7 @@ export function SearchWidget({ variant = "hero" }: SearchWidgetProps) {
                 placeholder="Return location"
                 value={search.returnLocation}
                 onChange={(e) => setSearch({ returnLocation: e.target.value })}
-                className="w-full bg-transparent outline-none text-sm font-medium placeholder:text-muted-foreground"
+                className="w-full bg-transparent outline-none text-sm font-medium placeholder:text-muted-deep text-foreground"
               />
             </FieldGroup>
             <FieldGroup className="lg:col-span-2" icon={Calendar} label="Return date">
@@ -145,7 +145,7 @@ export function SearchWidget({ variant = "hero" }: SearchWidgetProps) {
                 type="date"
                 value={search.returnDate}
                 onChange={(e) => setSearch({ returnDate: e.target.value })}
-                className="w-full bg-transparent outline-none text-sm font-medium"
+                className="w-full bg-transparent outline-none text-sm font-medium text-foreground"
               />
             </FieldGroup>
             <FieldGroup className="lg:col-span-1" icon={Clock} label="Time">
@@ -153,13 +153,13 @@ export function SearchWidget({ variant = "hero" }: SearchWidgetProps) {
                 type="time"
                 value={search.returnTime}
                 onChange={(e) => setSearch({ returnTime: e.target.value })}
-                className="w-full bg-transparent outline-none text-sm font-medium"
+                className="w-full bg-transparent outline-none text-sm font-medium text-foreground"
               />
             </FieldGroup>
             <div className="lg:col-span-2 flex">
               <Button
                 onClick={handleSearch}
-                className="btn-premium w-full h-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl min-h-[56px]"
+                className="btn-gold w-full h-full rounded-lg min-h-[56px]"
               >
                 <Search className="w-4 h-4 lg:mr-2" />
                 <span>Search</span>
@@ -177,10 +177,10 @@ function FieldGroup({
 }: { icon: any; label: string; children: React.ReactNode; className?: string }) {
   return (
     <label className={cn(
-      "flex items-center gap-3 px-4 py-2.5 rounded-xl border border-border/60 hover:border-primary/40 transition-colors cursor-text bg-background/60 min-h-[60px]",
+      "flex items-center gap-3 px-4 py-2.5 rounded-lg border border-white/[0.06] hover:border-gold/30 transition-colors cursor-text bg-white/[0.03] min-h-[60px]",
       className
     )}>
-      <Icon className="w-4 h-4 text-muted-foreground shrink-0" />
+      <Icon className="w-4 h-4 text-gold/70 shrink-0" />
       <div className="flex-1 min-w-0">
         <span className="block text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">{label}</span>
         {children}

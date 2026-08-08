@@ -17,9 +17,9 @@ export interface DestinationCardData {
 export function DestinationCard({ destination, large = false }: { destination: DestinationCardData; large?: boolean }) {
   const { setView } = useAppStore();
   return (
-    <button
+    <div
       onClick={() => setView({ name: "destination-detail", destinationId: destination.id })}
-      className={`group relative overflow-hidden rounded-2xl ${large ? "aspect-[4/5] lg:aspect-[3/4]" : "aspect-[3/4]"} premium-card cursor-pointer text-left`}
+      className={`group relative overflow-hidden rounded-2xl ${large ? "aspect-[4/5] lg:aspect-[3/4]" : "aspect-[3/4]"} premium-card cursor-pointer text-left bg-card border border-border-subtle`}
     >
       <img
         src={destination.heroImage}
@@ -27,13 +27,13 @@ export function DestinationCard({ destination, large = false }: { destination: D
         loading="lazy"
         className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
       <div className="absolute inset-0 p-4 lg:p-6 flex flex-col justify-end text-white">
         <div className="flex items-center gap-1.5 text-xs mb-1.5 opacity-90">
-          <MapPin className="w-3 h-3" />
+          <MapPin className="w-3 h-3 text-gold" />
           <span>{destination.country}</span>
         </div>
-        <h3 className={`font-bold leading-tight ${large ? "text-2xl lg:text-3xl" : "text-lg lg:text-xl"}`}>
+        <h3 className={`font-bold leading-tight ${large ? "text-2xl lg:text-3xl" : "text-lg lg:text-xl"}`} style={{ fontFamily: "var(--font-playfair), serif" }}>
           {destination.name}
         </h3>
         <p className="text-xs opacity-80 mt-1">
@@ -44,6 +44,6 @@ export function DestinationCard({ destination, large = false }: { destination: D
           <ArrowRight className="w-3.5 h-3.5" />
         </div>
       </div>
-    </button>
+    </div>
   );
 }
