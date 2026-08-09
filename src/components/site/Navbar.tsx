@@ -6,6 +6,7 @@ import {
   Car as CarIcon, Building2, ShieldCheck, Globe, ChevronDown, Sparkles,
 } from "lucide-react";
 import { useAppStore } from "@/store/useAppStore";
+import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -13,20 +14,22 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { LanguageSwitcher } from "@/components/site/LanguageSwitcher";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 const NAV_LINKS = [
-  { label: "Hotels", view: { name: "hotels" } as const, icon: Building2 },
-  { label: "Cars", view: { name: "cars" } as const, icon: CarIcon },
-  { label: "Destinations", view: { name: "destinations" } as const, icon: Globe },
-  { label: "Deals", view: { name: "deals" } as const, icon: Sparkles },
-  { label: "About", view: { name: "about" } as const, icon: null },
-  { label: "Help", view: { name: "help" } as const, icon: null },
+  { labelKey: "nav.hotels", view: { name: "hotels" } as const, icon: Building2 },
+  { labelKey: "nav.cars", view: { name: "cars" } as const, icon: CarIcon },
+  { labelKey: "nav.destinations", view: { name: "destinations" } as const, icon: Globe },
+  { labelKey: "nav.deals", view: { name: "deals" } as const, icon: Sparkles },
+  { labelKey: "nav.about", view: { name: "about" } as const, icon: null },
+  { labelKey: "nav.help", view: { name: "help" } as const, icon: null },
 ];
 
 export function Navbar() {
   const { user, setView, view, logout, favorites } = useAppStore();
+  const { t } = useI18n();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [notifCount, setNotifCount] = useState(2);
@@ -91,7 +94,7 @@ export function Navbar() {
               const isActive = view.name === link.view.name;
               return (
                 <button
-                  key={link.label}
+                  key={link.labelKey}
                   onClick={() => setView(link.view)}
                   className={cn(
                     "relative px-3.5 py-2 text-sm font-medium rounded-lg transition-colors",
@@ -100,7 +103,7 @@ export function Navbar() {
                       : "text-foreground/70 hover:text-foreground hover:bg-white/[0.04]"
                   )}
                 >
-                  {link.label}
+                  {t(link.labelKey)}
                   {isActive && (
                     <span className="absolute left-1/2 -translate-x-1/2 bottom-0.5 w-1 h-1 rounded-full bg-gold" />
                   )}
@@ -111,6 +114,9 @@ export function Navbar() {
 
           {/* Right actions */}
           <div className="flex items-center gap-2">
+            {/* Language Switcher */}
+            <LanguageSwitcher />
+
             {/* Favorites */}
             <button
               onClick={() => user ? setView({ name: "wishlist" }) : setView({ name: "auth", mode: "login" })}
@@ -162,14 +168,14 @@ export function Navbar() {
                   onClick={() => setView({ name: "auth", mode: "login" })}
                   className="text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-white/[0.04]"
                 >
-                  Sign in
+                  {t("nav.signin")}
                 </Button>
                 <Button
                   size="sm"
                   onClick={() => setView({ name: "auth", mode: "register" })}
                   className="btn-gold"
                 >
-                  Sign up
+                  {t("nav.signup")}
                 </Button>
               </div>
             ) : (
@@ -195,24 +201,24 @@ export function Navbar() {
                   </div>
                   <DropdownMenuSeparator className="bg-border-subtle" />
                   <DropdownMenuItem onClick={() => setView({ name: "customer-dashboard", tab: "bookings" })} className="cursor-pointer text-foreground/80 hover:bg-white/[0.04] hover:text-foreground">
-                    <User className="w-4 h-4 mr-2" /> My dashboard
+                    <User className="w-4 h-4 mr-2" /> {t("nav.myDashboard")}
                   </DropdownMenuItem>
                   {user.role === "OWNER" && (
                     <DropdownMenuItem onClick={() => setView({ name: "owner-portal", tab: "dashboard" })} className="cursor-pointer text-foreground/80 hover:bg-white/[0.04] hover:text-foreground">
-                      <CarIcon className="w-4 h-4 mr-2" /> Owner portal
+                      <CarIcon className="w-4 h-4 mr-2" /> {t("nav.ownerPortal")}
                     </DropdownMenuItem>
                   )}
                   {(user.role === "ADMIN" || user.role === "SUPER_ADMIN") && (
                     <DropdownMenuItem onClick={() => setView({ name: "admin-panel", tab: "dashboard" })} className="cursor-pointer text-foreground/80 hover:bg-white/[0.04] hover:text-foreground">
-                      <ShieldCheck className="w-4 h-4 mr-2" /> Admin panel
+                      <ShieldCheck className="w-4 h-4 mr-2" /> {t("nav.adminPanel")}
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuItem onClick={() => setView({ name: "wishlist" })} className="cursor-pointer text-foreground/80 hover:bg-white/[0.04] hover:text-foreground">
-                    <Heart className="w-4 h-4 mr-2" /> Wishlist
+                    <Heart className="w-4 h-4 mr-2" /> {t("nav.wishlist")}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator className="bg-border-subtle" />
                   <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive focus:text-destructive hover:bg-destructive/10">
-                    <LogOut className="w-4 h-4 mr-2" /> Sign out
+                    <LogOut className="w-4 h-4 mr-2" /> {t("nav.signout")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -239,12 +245,12 @@ export function Navbar() {
                 <div className="px-6 py-4 space-y-1">
                   {NAV_LINKS.map((link) => (
                     <button
-                      key={link.label}
+                      key={link.labelKey}
                       onClick={() => { setView(link.view); setMobileOpen(false); }}
                       className="w-full flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-white/[0.04] text-left text-sm font-medium text-foreground/80"
                     >
                       {link.icon && <link.icon className="w-4 h-4 text-gold" />}
-                      {link.label}
+                      {t(link.labelKey)}
                     </button>
                   ))}
                 </div>
@@ -252,7 +258,7 @@ export function Navbar() {
                   {!user ? (
                     <>
                       <Button className="w-full btn-gold" onClick={() => { setView({ name: "auth", mode: "login" }); setMobileOpen(false); }}>
-                        Sign in
+                        {t("nav.signin")}
                       </Button>
                       <Button variant="outline" className="w-full btn-gold-outline border-gold text-gold" onClick={() => { setView({ name: "auth", mode: "register" }); setMobileOpen(false); }}>
                         Create account
@@ -271,20 +277,20 @@ export function Navbar() {
                         </div>
                       </div>
                       <Button variant="outline" className="w-full justify-start border-border-subtle text-foreground/80 hover:text-foreground hover:bg-white/[0.04]" onClick={() => { setView({ name: "customer-dashboard", tab: "bookings" }); setMobileOpen(false); }}>
-                        <LayoutDashboard className="w-4 h-4 mr-2 text-gold" /> My dashboard
+                        <LayoutDashboard className="w-4 h-4 mr-2 text-gold" /> {t("nav.myDashboard")}
                       </Button>
                       {user.role === "OWNER" && (
                         <Button variant="outline" className="w-full justify-start border-border-subtle text-foreground/80 hover:text-foreground hover:bg-white/[0.04]" onClick={() => { setView({ name: "owner-portal", tab: "dashboard" }); setMobileOpen(false); }}>
-                          <CarIcon className="w-4 h-4 mr-2 text-gold" /> Owner portal
+                          <CarIcon className="w-4 h-4 mr-2 text-gold" /> {t("nav.ownerPortal")}
                         </Button>
                       )}
                       {(user.role === "ADMIN" || user.role === "SUPER_ADMIN") && (
                         <Button variant="outline" className="w-full justify-start border-border-subtle text-foreground/80 hover:text-foreground hover:bg-white/[0.04]" onClick={() => { setView({ name: "admin-panel", tab: "dashboard" }); setMobileOpen(false); }}>
-                          <ShieldCheck className="w-4 h-4 mr-2 text-gold" /> Admin panel
+                          <ShieldCheck className="w-4 h-4 mr-2 text-gold" /> {t("nav.adminPanel")}
                         </Button>
                       )}
                       <Button variant="ghost" className="w-full justify-start text-destructive hover:bg-destructive/10" onClick={handleLogout}>
-                        <LogOut className="w-4 h-4 mr-2" /> Sign out
+                        <LogOut className="w-4 h-4 mr-2" /> {t("nav.signout")}
                       </Button>
                     </>
                   )}
